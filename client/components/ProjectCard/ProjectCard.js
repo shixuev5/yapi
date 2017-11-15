@@ -1,8 +1,8 @@
 import './ProjectCard.scss';
 import React, { Component } from 'react';
-import { Card, Icon, Tooltip } from 'antd';
-import { connect } from 'react-redux'
-import { delFollow, addFollow } from  '../../reducer/modules/follow';
+import { Card, Icon, Tooltip, Checkbox } from 'antd';
+import { connect } from 'react-redux';
+import { delFollow, addFollow } from '../../reducer/modules/follow';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { debounce } from '../../common';
@@ -12,7 +12,7 @@ import constants from '../../constants/variable.js';
   state => {
     return {
       uid: state.user.uid
-    }
+    };
   },
   {
     delFollow,
@@ -31,21 +31,24 @@ class ProjectCard extends Component {
     projectData: PropTypes.object,
     uid: PropTypes.number,
     inFollowPage: PropTypes.bool,
+    chooseState: PropTypes.bool,
+    checked: PropTypes.bool,
     callbackResult: PropTypes.func,
+    callbackChecked: PropTypes.func,
     history: PropTypes.object,
     delFollow: PropTypes.func,
     addFollow: PropTypes.func
-  }
+  };
 
   del = () => {
     const id = this.props.projectData.projectid || this.props.projectData._id;
-    this.props.delFollow(id).then((res) => {
+    this.props.delFollow(id).then(res => {
       if (res.payload.data.errcode === 0) {
         this.props.callbackResult();
         // message.success('已取消关注！');  // 星号已做出反馈 无需重复提醒用户
       }
     });
-  }
+  };
 
   add = () => {
     const { uid, projectData } = this.props;
@@ -55,32 +58,67 @@ class ProjectCard extends Component {
       projectname: projectData.name,
       icon: projectData.icon || constants.PROJECT_ICON[0],
       color: projectData.color || constants.PROJECT_COLOR.blue
-    }
-    this.props.addFollow(param).then((res) => {
+    };
+    this.props.addFollow(param).then(res => {
       if (res.payload.data.errcode === 0) {
         this.props.callbackResult();
         // message.success('已添加关注！');  // 星号已做出反馈 无需重复提醒用户
       }
     });
-  }
+  };
+
+  checked() {}
 
   render() {
-    const { projectData, inFollowPage } = this.props;
+    const { projectData, inFollowPage, chooseState, checked, callbackChecked } = this.props;
     return (
       <div className="card-container">
-        <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + (projectData.projectid || projectData._id))}>
-          <Icon type={projectData.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectData.color] || constants.PROJECT_COLOR.blue }} />
-          <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
+        <Card
+          bordered={false}
+          className="m-card"
+          onClick={() =>
+            chooseState ? callbackChecked(projectData._id) : this.props.history.push(
+              '/project/' + (projectData.projectid || projectData._id)
+            )}
+        >
+          <Icon
+            type={projectData.icon || 'star-o'}
+            className="ui-logo"
+            style={{
+              backgroundColor:
+                constants.PROJECT_COLOR[projectData.color] ||
+                constants.PROJECT_COLOR.blue
+            }}
+          />
+          <h4 className="ui-title">
+            {projectData.name || projectData.projectname}
+          </h4>
         </Card>
-        <div className="card-btns" onClick={projectData.follow || inFollowPage ? this.del : this.add}>
-          <Tooltip placement="rightTop" title={projectData.follow || inFollowPage ? '取消关注' : '添加关注'}>
-            <Icon type={projectData.follow || inFollowPage ? 'star' : 'star-o'} className={'icon ' + (projectData.follow || inFollowPage ? 'active' : '')}/>
-          </Tooltip>
-        </div>
+        {chooseState ? (
+          <div className="card-check">
+            <Checkbox checked={checked} onChange={() => callbackChecked(projectData._id)}></Checkbox>
+          </div>
+        ) : (
+          <div
+            className="card-btns"
+            onClick={projectData.follow || inFollowPage ? this.del : this.add}
+          >
+            <Tooltip
+              placement="rightTop"
+              title={projectData.follow || inFollowPage ? '取消关注' : '添加关注'}
+            >
+              <Icon
+                type={projectData.follow || inFollowPage ? 'star' : 'star-o'}
+                className={
+                  'icon ' + (projectData.follow || inFollowPage ? 'active' : '')
+                }
+              />
+            </Tooltip>
+          </div>
+        )}
       </div>
-    )
+    );
   }
-
 }
 
-export default ProjectCard
+export default ProjectCard;

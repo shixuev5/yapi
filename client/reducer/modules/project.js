@@ -209,7 +209,6 @@ export function delProject(id) {
 }
 
 export function getProject(id){
-
   return async (dispatch) => {
     let result = await axios.get('/api/project/get?id=' + id);
     dispatch({

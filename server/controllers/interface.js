@@ -95,19 +95,22 @@ class interfaceController extends baseController {
             })
         })
 
-
-
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
 
         if (checkRepeat > 0) {
             return ctx.body = yapi.commons.resReturn(null, 40022, '已存在的接口:' + params.path + '[' + params.method + ']');
         }
 
+        // 根据项目环境变量处理接口基础地址
+        const result = await this.projectModel.getByPid(params.project_id)
+        params.env = result[0].env.length ? result[0].env[0].name : '';
+
         try {
             let data = {
                 project_id: params.project_id,
                 catid: params.catid,
                 title: params.title,
+                env: params.env,
                 path: params.path,
                 desc: params.desc,
                 method: params.method,
@@ -427,6 +430,9 @@ class interfaceController extends baseController {
 
         if (!_.isUndefined(params.path)) {
             data.path = params.path;
+        }
+        if (!_.isUndefined(params.env)) {
+            data.env = params.env;
         }
         if (!_.isUndefined(params.title)) {
             data.title = params.title;

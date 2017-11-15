@@ -4,6 +4,7 @@
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
+    "package:api": "webpack --config ./api/webpack.config.js",
     "dev-server": " nodemon server/app.js dev -L",
     "install-server": " node server/install.js",
     "dev-client": "ykit s -p 4000",

@@ -3,12 +3,12 @@
   position: relative;
   user-select: none;
   transition: all .2s;
-  .m-card, .card-btns {
+  .m-card, .card-btns, .card-check {
     transform: translateY(0);
     transition: all .2s;
   }
   &:hover {
-    .m-card, .card-btns {
+    .m-card, .card-btns, .card-check {
       transform: translateY(-4px);
     }
     .m-card .ant-card-body {
@@ -23,13 +23,19 @@
     }
   }
   &:active {
-    .m-card, .card-btns {
+    .m-card, .card-btns, .card-check {
       transform: translateY(4px);
     }
   }
   // 覆盖 card 组件 hover 状态的默认阴影样式
   .ant-card:not(.ant-card-no-hovering):hover {
     box-shadow: none;
+  }
+  // 卡片左上角check按钮
+  .card-check {
+    position: absolute;
+    top: 8px;
+    left: 8px;
   }
   // 卡片右上角按钮
   .card-btns {

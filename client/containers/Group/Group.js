@@ -19,7 +19,6 @@ import './Group.scss';
       curUserRole: state.user.role,
       curUserRoleInGroup: state.group.currGroup.role || state.group.role,
       currGroup: state.group.currGroup
-
     }
   },
   {

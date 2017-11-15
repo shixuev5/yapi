@@ -11,6 +11,7 @@ class interfaceModel extends baseModel {
             title: {type: String, required: true},
             uid: {type: Number, required: true},
             path: {type: String, required: true},
+            env: {type: String, required: true},
             method: {type: String, required: true},
             project_id: {type: Number, required: true},
             catid: {type: Number, required: true},
@@ -24,7 +25,7 @@ class interfaceModel extends baseModel {
                 path: String,
                 params: [{
                     name: String, value: String
-                }],
+                }]
             },
             req_query: [{
                 name: String, value: String, example: String, desc: String, required: {
@@ -138,6 +139,14 @@ class interfaceModel extends baseModel {
             project_id: project_id
         })
         .sort({_id: -1})
+        .exec();
+    }
+
+    getByPid(pid_arr) {
+        return this.model.find()
+        .where('project_id')
+        .in(pid_arr)
+        .select('project_id title path env method req_body_type res_body_type req_body_other req_body_form req_params req_headers req_query query_path')
         .exec();
     }
 

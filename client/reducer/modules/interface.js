@@ -60,7 +60,6 @@ export function initInterface(){
   return {
     type: INIT_INTERFACE_DATA
   }
-
 }
 
 export function updateInterfaceData(updata) {
@@ -69,8 +68,6 @@ export function updateInterfaceData(updata) {
     updata: updata,
     payload: true
   }
-
-
 }
 
 export async function deleteInterfaceData(id) {
