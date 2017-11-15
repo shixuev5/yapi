@@ -14,7 +14,7 @@ class apiController extends baseController {
   }
 
   async index(ctx) {
-    let { project_id } = ctx.request.query;
+    const { project_id } = ctx.request.body;
     const interList = await this.interfaceModel.getByPid(project_id);
     const projList = await this.projectModel.getByPid(project_id);
     await yapi.fs.writeFile(yapi.path.resolve(yapi.WEBROOT, './api/file/request.json'), JSON.stringify(interList, null, 4));
@@ -24,12 +24,11 @@ class apiController extends baseController {
   }
 
   async download(ctx) {
-    let filename = 'api.js';
     let dataBuffer = yapi.fs.readFileSync(
-      yapi.path.join(yapi.WEBROOT, `static/attachment/${filename}`)
+      yapi.path.join(yapi.WEBROOT, `static/attachment/api.js`)
     );
-    ctx.set("Content-Type", "application/octet-stream");
-    ctx.set('Content-disposition', 'attachment; filename=' + filename);
+    ctx.set("Content-Type", "application/x-javascript");
+    ctx.set('Content-disposition', `attachment; filename=api.js`);
     ctx.body = dataBuffer;
   }
 }

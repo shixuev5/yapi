@@ -358,11 +358,10 @@ export default class CaseDesModal extends Component {
           <Row className="params-form" style={{marginBottom: 8}}>
             <Col {...{ span: 12, offset: 5 }}>
               <Switch
-                size="small"
                 checkedChildren="JSON"
                 unCheckedChildren="JSON"
                 checked={paramsForm === 'json'}
-                onChange={bool => { 
+                onChange={bool => {
                   if (bool) {
                     this.shouldLoadParamsEditor = true
                   }
