@@ -502,16 +502,6 @@ class InterfaceEditForm extends Component {
               initialValue: data.desc
             })(<TextArea autosize={true} placeholder="备注" />)}
           </Col>
-          <Col span="6" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_query[" + index + "].example", {
-              initialValue: data.example
-            })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
-          </Col>
-          <Col span="9" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_query[" + index + "].desc", {
-              initialValue: data.desc
-            })(<Input.TextArea autosize={true} placeholder="备注" />)}
-          </Col>
           <Col span="1" className="interface-edit-item-content-col">
             <Icon
               type="delete"
@@ -574,21 +564,6 @@ class InterfaceEditForm extends Component {
             {getFieldDecorator("req_headers[" + index + "].desc", {
               initialValue: data.desc
             })(<TextArea autosize={true} placeholder="备注" />)}
-          </Col>
-          <Col span="6" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_headers[" + index + "].value", {
-              initialValue: data.value
-            })(<Input placeholder="参数值" />)}
-          </Col>
-          <Col span="5" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_headers[" + index + "].example", {
-              initialValue: data.example
-            })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
-          </Col>
-          <Col span="8" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_headers[" + index + "].desc", {
-              initialValue: data.desc
-            })(<Input.TextArea autosize={true} placeholder="备注" />)}
           </Col>
           <Col span="1" className="interface-edit-item-content-col">
             <Icon
@@ -658,16 +633,6 @@ class InterfaceEditForm extends Component {
             {getFieldDecorator("req_body_form[" + index + "].desc", {
               initialValue: data.desc
             })(<TextArea autosize={true} placeholder="备注" />)}
-          </Col>
-          <Col span="5" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_body_form[" + index + "].example", {
-              initialValue: data.example
-            })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
-          </Col>
-          <Col span="8" className="interface-edit-item-content-col">
-            {getFieldDecorator("req_body_form[" + index + "].desc", {
-              initialValue: data.desc
-            })(<Input.TextArea autosize={true} placeholder="备注" />)}
           </Col>
           <Col span="1" className="interface-edit-item-content-col">
             <Icon
