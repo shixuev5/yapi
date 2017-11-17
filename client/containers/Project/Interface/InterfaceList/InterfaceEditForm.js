@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'underscore';
-import constants from '../../../../constants/variable.js';
-import { handlePath, nameLengthLimit } from '../../../../common.js';
-import { changeEditStatus } from '../../../../reducer/modules/interface.js';
-import json5 from 'json5';
-import { message, Tabs, Affix } from 'antd';
-import Editor from 'wangeditor';
+import React, { PureComponent as Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import _ from "underscore";
+import constants from "../../../../constants/variable.js";
+import { handlePath, nameLengthLimit } from "../../../../common.js";
+import { changeEditStatus } from "../../../../reducer/modules/interface.js";
+import json5 from "json5";
+import { message, Tabs, Affix } from "antd";
+import Editor from "wangeditor";
 const TabPane = Tabs.TabPane;
 let EditFormContext;
 const validJson = json => {
@@ -18,6 +18,13 @@ const validJson = json => {
     return false;
   }
 };
+
+function arrMove(arr, fromIndex, toIndex) {
+  arr = [].concat(arr);
+  let item = arr.splice(fromIndex, 1)[0];
+  arr.splice(toIndex, 0, item);
+  return arr;
+}
 
 import {
   Form,
@@ -31,27 +38,28 @@ import {
   Icon,
   AutoComplete,
   Switch
-} from 'antd';
+} from "antd";
 
+const TextArea = Input.TextArea;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const InputGroup = Input.Group;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const dataTpl = {
-  req_query: { name: '', required: '1', desc: '', example: '' },
-  req_headers: { name: '', required: '1', desc: '', example: '' },
-  req_params: { name: '', desc: '', example: '' },
+  req_query: { name: "", required: "1", desc: "", example: "" },
+  req_headers: { name: "", required: "1", desc: "", example: "" },
+  req_params: { name: "", desc: "", example: "" },
   req_body_form: {
-    name: '',
-    type: 'text',
-    required: '1',
-    desc: '',
-    example: ''
+    name: "",
+    type: "text",
+    required: "1",
+    desc: "",
+    example: ""
   }
 };
 
-const mockEditor = require('./mockEditor.js');
+const mockEditor = require("./mockEditor.js");
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 const HTTP_REQUEST_HEADER = constants.HTTP_REQUEST_HEADER;
@@ -89,66 +97,66 @@ class InterfaceEditForm extends Component {
       delete curdata.req_params;
     if (curdata.req_body_form) {
       curdata.req_body_form = curdata.req_body_form.map(item => {
-        item.type = item.type === 'text' ? 'text' : 'file';
+        item.type = item.type === "text" ? "text" : "file";
         return item;
       });
     }
     // 设置标签的展开与折叠
-    curdata['hideTabs'] = {
+    curdata["hideTabs"] = {
       req: {
-        body: 'hide',
-        query: 'hide',
-        headers: 'hide'
+        body: "hide",
+        query: "hide",
+        headers: "hide"
       },
       other: {
-        remark: '',
-        mail: 'hide'
+        remark: "",
+        mail: "hide"
       }
     };
-    curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
+    curdata["hideTabs"]["req"][HTTP_METHOD[curdata.method].default_tab] = "";
     return Object.assign(
       {
-        title: '',
+        title: "",
         env: this.props.env[0].name,
-        path: '',
-        status: 'undone',
-        method: 'get',
+        path: "",
+        status: "undone",
+        method: "get",
 
         req_params: [],
 
         req_query: [
           {
-            name: '',
-            desc: '',
-            required: '1'
+            name: "",
+            desc: "",
+            required: "1"
           }
         ],
 
         req_headers: [
           {
-            name: '',
-            value: '',
-            required: '1'
+            name: "",
+            value: "",
+            required: "1"
           }
         ],
 
-        req_body_type: 'form',
+        req_body_type: "form",
         req_body_form: [
           {
-            name: '',
-            type: 'text',
-            required: '1'
+            name: "",
+            type: "text",
+            required: "1"
           }
         ],
-        req_body_other: '',
+        req_body_other: "",
 
-        res_body_type: 'json',
-        res_body: '',
-        desc: '',
-        res_body_mock: '',
-        jsonType: 'tpl',
+        res_body_type: "json",
+        res_body: "",
+        desc: "",
+        res_body_mock: "",
+        jsonType: "tpl",
         mockUrl: this.props.mockUrl,
-        req_radio_type: 'req-query'
+        req_radio_type: "req-query"
       },
       curdata
     );
@@ -167,54 +175,70 @@ class InterfaceEditForm extends Component {
       if (!err) {
         values.desc = this.editor.txt.html();
 
-        if (values.res_body_type === 'json') {
+        if (values.res_body_type === "json") {
           if (this.state.res_body && validJson(this.state.res_body) === false) {
-            return message.error('返回body json格式有问题，请检查！');
+            return message.error("返回body json格式有问题，请检查！");
           }
-          values.res_body = this.state.res_body;
+          try {
+            values.res_body = JSON.stringify(
+              JSON.parse(this.state.res_body),
+              null,
+              "   "
+            );
+          } catch (e) {
+            values.res_body = this.state.res_body;
+          }
         }
-        if (values.req_body_type === 'json') {
+        if (values.req_body_type === "json") {
           if (
             this.state.req_body_other &&
             validJson(this.state.req_body_other) === false
           ) {
-            return message.error('响应Body json格式有问题，请检查！');
+            return message.error("响应Body json格式有问题，请检查！");
           }
-          values.req_body_other = this.state.req_body_other;
+          try {
+            values.req_body_other = JSON.stringify(
+              JSON.parse(this.state.req_body_other),
+              null,
+              "   "
+            );
+          } catch (e) {
+            values.req_body_other = this.state.req_body_other;
+          }
         }
 
         values.method = this.state.method;
         values.req_params = values.req_params || [];
         let isfile = false,
           isHavaContentType = false;
-        if (values.req_body_type === 'form') {
+        if (values.req_body_type === "form") {
           values.req_body_form.forEach(item => {
-            if (item.type === 'file') {
+            if (item.type === "file") {
               isfile = true;
             }
           });
 
           values.req_headers.map(item => {
-            if (item.name === 'Content-Type') {
+            if (item.name === "Content-Type") {
               item.value = isfile
-                ? 'multipart/form-data'
-                : 'application/x-www-form-urlencoded';
+                ? "multipart/form-data"
+                : "application/x-www-form-urlencoded";
               isHavaContentType = true;
             }
           });
           if (isHavaContentType === false) {
             values.req_headers.unshift({
-              name: 'Content-Type',
+              name: "Content-Type",
               value: isfile
-                ? 'multipart/form-data'
-                : 'application/x-www-form-urlencoded'
+                ? "multipart/form-data"
+                : "application/x-www-form-urlencoded"
             });
           }
-        } else if (values.req_body_type === 'json') {
+        } else if (values.req_body_type === "json") {
           values.req_headers
             ? values.req_headers.map(item => {
-                if (item.name === 'Content-Type') {
-                  item.value = 'application/json';
+                if (item.name === "Content-Type") {
+                  item.value = "application/json";
                   isHavaContentType = true;
                 }
               })
@@ -222,22 +246,22 @@ class InterfaceEditForm extends Component {
           if (isHavaContentType === false) {
             values.req_headers = values.req_headers || [];
             values.req_headers.unshift({
-              name: 'Content-Type',
-              value: 'application/json'
+              name: "Content-Type",
+              value: "application/json"
             });
           }
         }
         values.req_headers = values.req_headers
-          ? values.req_headers.filter(item => item.name !== '')
+          ? values.req_headers.filter(item => item.name !== "")
           : [];
         values.req_body_form = values.req_body_form
-          ? values.req_body_form.filter(item => item.name !== '')
+          ? values.req_body_form.filter(item => item.name !== "")
           : [];
         values.req_params = values.req_params
-          ? values.req_params.filter(item => item.name !== '')
+          ? values.req_params.filter(item => item.name !== "")
           : [];
         values.req_query = values.req_query
-          ? values.req_query.filter(item => item.name !== '')
+          ? values.req_query.filter(item => item.name !== "")
           : [];
 
         if (HTTP_METHOD[values.method].request_body !== true) {
@@ -251,12 +275,12 @@ class InterfaceEditForm extends Component {
   onChangeMethod = val => {
     let radio = [];
     if (HTTP_METHOD[val].request_body) {
-      radio = ['req', 'body'];
+      radio = ["req", "body"];
     } else {
-      radio = ['req', 'query'];
+      radio = ["req", "query"];
     }
     this.setState({
-      req_radio_type: radio.join('-')
+      req_radio_type: radio.join("-")
     });
 
     this.setState({ method: val }, () => {
@@ -268,14 +292,14 @@ class InterfaceEditForm extends Component {
     EditFormContext = this;
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body
-        ? 'req-body'
-        : 'req-query'
+        ? "req-body"
+        : "req-query"
     });
     let that = this;
     const initReqBody = that.state.req_body_other;
     const initResBody = that.state.res_body;
     mockEditor({
-      container: 'req_body_json',
+      container: "req_body_json",
       data: that.state.req_body_other,
       onChange: function(d) {
         that.setState({
@@ -286,7 +310,7 @@ class InterfaceEditForm extends Component {
     });
 
     this.resBodyEditor = mockEditor({
-      container: 'res_body_json',
+      container: "res_body_json",
       data: that.state.res_body,
       onChange: function(d) {
         that.setState({
@@ -297,12 +321,12 @@ class InterfaceEditForm extends Component {
     });
 
     this.mockPreview = mockEditor({
-      container: 'mock-preview',
-      data: '',
+      container: "mock-preview",
+      data: "",
       readOnly: true
     });
 
-    let editor = (this.editor = new Editor('#desc'));
+    let editor = (this.editor = new Editor("#desc"));
     const initEditorHTML = this.state.desc;
     editor.customConfig.onchange = function(html) {
       EditFormContext.props.changeEditStatus(initEditorHTML !== html);
@@ -310,9 +334,8 @@ class InterfaceEditForm extends Component {
     editor.create();
     editor.txt.html(this.state.desc);
 
-    
-    if (navigator.userAgent.indexOf('Firefox') > 0) {
-      document.getElementById('title').focus();
+    if (navigator.userAgent.indexOf("Firefox") > 0) {
+      document.getElementById("title").focus();
     }
   }
 
@@ -338,22 +361,22 @@ class InterfaceEditForm extends Component {
   };
 
   handleMockPreview = () => {
-    let str = '';
+    let str = "";
     try {
       if (this.resBodyEditor.curData.format === true) {
-        str = JSON.stringify(this.resBodyEditor.curData.mockData(), null, '  ');
+        str = JSON.stringify(this.resBodyEditor.curData.mockData(), null, "  ");
       } else {
-        str = '解析出错: ' + this.resBodyEditor.curData.format;
+        str = "解析出错: " + this.resBodyEditor.curData.format;
       }
     } catch (err) {
-      str = '解析出错: ' + err.message;
+      str = "解析出错: " + err.message;
     }
     this.mockPreview.setValue(str);
   };
 
   handleJsonType = key => {
-    key = key || 'tpl';
-    if (key === 'preview') {
+    key = key || "tpl";
+    if (key === "preview") {
       this.handleMockPreview();
     }
     this.setState({
@@ -368,18 +391,18 @@ class InterfaceEditForm extends Component {
     this.props.form.setFieldsValue({
       path: val
     });
-    if (val && val.indexOf(':') !== -1) {
-      let paths = val.split('/'),
+    if (val && val.indexOf(":") !== -1) {
+      let paths = val.split("/"),
         name,
         i;
       for (i = 1; i < paths.length; i++) {
-        if (paths[i][0] === ':') {
+        if (paths[i][0] === ":") {
           name = paths[i].substr(1);
           let findExist = _.find(this.state.req_params, { name: name });
           if (findExist) {
             queue.push(findExist);
           } else {
-            queue.push({ name: name, desc: '' });
+            queue.push({ name: name, desc: "" });
           }
         }
       }
@@ -391,8 +414,8 @@ class InterfaceEditForm extends Component {
 
   // 点击切换radio
   changeRadioGroup = e => {
-    const res = e.target.value.split('-');
-    if (res[0] === 'req') {
+    const res = e.target.value.split("-");
+    if (res[0] === "req") {
       this.setState({
         req_radio_type: e.target.value
       });
@@ -404,16 +427,24 @@ class InterfaceEditForm extends Component {
     const obj = {};
     // 先全部隐藏
     for (let key in this.state.hideTabs[group]) {
-      obj[key] = 'hide';
+      obj[key] = "hide";
     }
     // 再取消选中项目的隐藏
-    obj[item] = '';
+    obj[item] = "";
     this.setState({
       hideTabs: {
         ...this.state.hideTabs,
         [group]: obj
       }
     });
+  };
+
+  handleDragMove = (name, from, to) => {
+    let curValue = this.props.form.getFieldValue(name);
+    let newValue = {};
+    newValue[name] = arrMove(curValue, from, to);
+    this.props.form.setFieldsValue(newValue);
+    this.setState(curValue);
   };
 
   render() {
@@ -425,14 +456,34 @@ class InterfaceEditForm extends Component {
 
     const queryTpl = (data, index) => {
       return (
-        <Row key={index} className="interface-edit-item-content">
+        <Row
+          key={index}
+          className="interface-edit-item-content"
+          draggable="true"
+          onDragStart={() => (this.curDragItem = index)}
+          onDragEnter={() => {
+            this.curDrogItem = index;
+          }}
+          onDragLeave={() => {
+            this.curDrogItem = index;
+          }}
+          onDragEnd={() => {
+            this.handleDragMove(
+              "req_query",
+              this.curDragItem,
+              this.curDrogItem
+            );
+            this.curDrogItem = null;
+            this.curDragItem = null;
+          }}
+        >
           <Col span="5" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_query[' + index + '].name', {
+            {getFieldDecorator("req_query[" + index + "].name", {
               initialValue: data.name
             })(<Input placeholder="参数名称" />)}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_query[' + index + '].required', {
+            {getFieldDecorator("req_query[" + index + "].required", {
               initialValue: data.required
             })(
               <Select>
@@ -442,12 +493,22 @@ class InterfaceEditForm extends Component {
             )}
           </Col>
           <Col span="6" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_query[' + index + '].example', {
+            {getFieldDecorator("req_query[" + index + "].example", {
+              initialValue: data.example
+            })(<TextArea autosize={true} placeholder="参数示例" />)}
+          </Col>
+          <Col span="9" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_query[" + index + "].desc", {
+              initialValue: data.desc
+            })(<TextArea autosize={true} placeholder="备注" />)}
+          </Col>
+          <Col span="6" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_query[" + index + "].example", {
               initialValue: data.example
             })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
           <Col span="9" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_query[' + index + '].desc', {
+            {getFieldDecorator("req_query[" + index + "].desc", {
               initialValue: data.desc
             })(<Input.TextArea autosize={true} placeholder="备注" />)}
           </Col>
@@ -455,7 +516,7 @@ class InterfaceEditForm extends Component {
             <Icon
               type="delete"
               className="interface-edit-del-icon"
-              onClick={() => this.delParams(index, 'req_query')}
+              onClick={() => this.delParams(index, "req_query")}
             />
           </Col>
         </Row>
@@ -464,9 +525,29 @@ class InterfaceEditForm extends Component {
 
     const headerTpl = (data, index) => {
       return (
-        <Row key={index} className="interface-edit-item-content">
+        <Row
+          key={index}
+          className="interface-edit-item-content"
+          draggable="true"
+          onDragStart={() => (this.curDragItem = index)}
+          onDragEnter={() => {
+            this.curDrogItem = index;
+          }}
+          onDragLeave={() => {
+            this.curDrogItem = index;
+          }}
+          onDragEnd={() => {
+            this.handleDragMove(
+              "req_headers",
+              this.curDragItem,
+              this.curDrogItem
+            );
+            this.curDrogItem = null;
+            this.curDragItem = null;
+          }}
+        >
           <Col span="4" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_headers[' + index + '].name', {
+            {getFieldDecorator("req_headers[" + index + "].name", {
               initialValue: data.name
             })(
               <AutoComplete
@@ -480,17 +561,32 @@ class InterfaceEditForm extends Component {
             )}
           </Col>
           <Col span="6" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_headers[' + index + '].value', {
+            {getFieldDecorator("req_headers[" + index + "].value", {
               initialValue: data.value
             })(<Input placeholder="参数值" />)}
           </Col>
           <Col span="5" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_headers[' + index + '].example', {
+            {getFieldDecorator("req_headers[" + index + "].example", {
+              initialValue: data.example
+            })(<TextArea autosize={true} placeholder="参数示例" />)}
+          </Col>
+          <Col span="8" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_headers[" + index + "].desc", {
+              initialValue: data.desc
+            })(<TextArea autosize={true} placeholder="备注" />)}
+          </Col>
+          <Col span="6" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_headers[" + index + "].value", {
+              initialValue: data.value
+            })(<Input placeholder="参数值" />)}
+          </Col>
+          <Col span="5" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_headers[" + index + "].example", {
               initialValue: data.example
             })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
           <Col span="8" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_headers[' + index + '].desc', {
+            {getFieldDecorator("req_headers[" + index + "].desc", {
               initialValue: data.desc
             })(<Input.TextArea autosize={true} placeholder="备注" />)}
           </Col>
@@ -498,7 +594,7 @@ class InterfaceEditForm extends Component {
             <Icon
               type="delete"
               className="interface-edit-del-icon"
-              onClick={() => this.delParams(index, 'req_headers')}
+              onClick={() => this.delParams(index, "req_headers")}
             />
           </Col>
         </Row>
@@ -507,14 +603,34 @@ class InterfaceEditForm extends Component {
 
     const requestBodyTpl = (data, index) => {
       return (
-        <Row key={index} className="interface-edit-item-content">
+        <Row
+          key={index}
+          className="interface-edit-item-content"
+          draggable="true"
+          onDragStart={() => (this.curDragItem = index)}
+          onDragEnter={() => {
+            this.curDrogItem = index;
+          }}
+          onDragLeave={() => {
+            this.curDrogItem = index;
+          }}
+          onDragEnd={() => {
+            this.handleDragMove(
+              "req_body_form",
+              this.curDragItem,
+              this.curDrogItem
+            );
+            this.curDrogItem = null;
+            this.curDragItem = null;
+          }}
+        >
           <Col span="4" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_body_form[' + index + '].name', {
+            {getFieldDecorator("req_body_form[" + index + "].name", {
               initialValue: data.name
             })(<Input placeholder="name" />)}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_body_form[' + index + '].type', {
+            {getFieldDecorator("req_body_form[" + index + "].type", {
               initialValue: data.type
             })(
               <Select>
@@ -524,7 +640,7 @@ class InterfaceEditForm extends Component {
             )}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_body_form[' + index + '].required', {
+            {getFieldDecorator("req_body_form[" + index + "].required", {
               initialValue: data.required
             })(
               <Select>
@@ -534,12 +650,22 @@ class InterfaceEditForm extends Component {
             )}
           </Col>
           <Col span="5" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_body_form[' + index + '].example', {
+            {getFieldDecorator("req_body_form[" + index + "].example", {
+              initialValue: data.example
+            })(<TextArea autosize={true} placeholder="参数示例" />)}
+          </Col>
+          <Col span="8" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_body_form[" + index + "].desc", {
+              initialValue: data.desc
+            })(<TextArea autosize={true} placeholder="备注" />)}
+          </Col>
+          <Col span="5" className="interface-edit-item-content-col">
+            {getFieldDecorator("req_body_form[" + index + "].example", {
               initialValue: data.example
             })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
           <Col span="8" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_body_form[' + index + '].desc', {
+            {getFieldDecorator("req_body_form[" + index + "].desc", {
               initialValue: data.desc
             })(<Input.TextArea autosize={true} placeholder="备注" />)}
           </Col>
@@ -547,7 +673,7 @@ class InterfaceEditForm extends Component {
             <Icon
               type="delete"
               className="interface-edit-del-icon"
-              onClick={() => this.delParams(index, 'req_body_form')}
+              onClick={() => this.delParams(index, "req_body_form")}
             />
           </Col>
         </Row>
@@ -556,21 +682,41 @@ class InterfaceEditForm extends Component {
 
     const paramsTpl = (data, index) => {
       return (
-        <Row key={index} className="interface-edit-item-content">
+        <Row
+          key={index}
+          className="interface-edit-item-content"
+          draggable="true"
+          onDragStart={() => (this.curDragItem = index)}
+          onDragEnter={() => {
+            this.curDrogItem = index;
+          }}
+          onDragLeave={() => {
+            this.curDrogItem = index;
+          }}
+          onDragEnd={() => {
+            this.handleDragMove(
+              "req_params",
+              this.curDragItem,
+              this.curDrogItem
+            );
+            this.curDrogItem = null;
+            this.curDragItem = null;
+          }}
+        >
           <Col span="6" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_params[' + index + '].name', {
+            {getFieldDecorator("req_params[" + index + "].name", {
               initialValue: data.name
             })(<Input disabled placeholder="参数名称" />)}
           </Col>
           <Col span="7" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_params[' + index + '].example', {
+            {getFieldDecorator("req_params[" + index + "].example", {
               initialValue: data.desc
-            })(<Input.TextArea autosize={true} placeholder="参数示例" />)}
+            })(<TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
           <Col span="11" className="interface-edit-item-content-col">
-            {getFieldDecorator('req_params[' + index + '].desc', {
+            {getFieldDecorator("req_params[" + index + "].desc", {
               initialValue: data.desc
-            })(<Input.TextArea autosize={true} placeholder="备注" />)}
+            })(<TextArea autosize={true} placeholder="备注" />)}
           </Col>
         </Row>
       );
@@ -604,9 +750,9 @@ class InterfaceEditForm extends Component {
             {...formItemLayout}
             label="接口名称"
           >
-            {getFieldDecorator('title', {
+            {getFieldDecorator("title", {
               initialValue: this.state.title,
-              rules: nameLengthLimit('接口')
+              rules: nameLengthLimit("接口")
             })(<Input id="title" placeholder="接口名称" />)}
           </FormItem>
 
@@ -615,14 +761,14 @@ class InterfaceEditForm extends Component {
             {...formItemLayout}
             label="选择分类"
           >
-            {getFieldDecorator('catid', {
-              initialValue: this.state.catid + '',
-              rules: [{ required: true, message: '请选择一个分类' }]
+            {getFieldDecorator("catid", {
+              initialValue: this.state.catid + "",
+              rules: [{ required: true, message: "请选择一个分类" }]
             })(
               <Select placeholder="请选择一个分类">
                 {this.props.cat.map(item => {
                   return (
-                    <Option key={item._id} value={item._id + ''}>
+                    <Option key={item._id} value={item._id + ""}>
                       {item.name}
                     </Option>
                   );
@@ -636,9 +782,9 @@ class InterfaceEditForm extends Component {
             {...formItemLayout}
             label="服务地址"
           >
-            {getFieldDecorator('env', {
+            {getFieldDecorator("env", {
               initialValue: this.state.env,
-              rules: [{ required: true, message: '请选择一个服务地址' }]
+              rules: [{ required: true, message: "请选择一个服务地址" }]
             })(
               <Select placeholder="请选择一个服务地址">
                 {this.props.env.map(item => {
@@ -678,7 +824,7 @@ class InterfaceEditForm extends Component {
               <Select
                 value={this.state.method}
                 onChange={this.onChangeMethod}
-                style={{ width: '15%' }}
+                style={{ width: "15%" }}
               >
                 {HTTP_METHOD_KEYS.map(item => {
                   return (
@@ -692,7 +838,7 @@ class InterfaceEditForm extends Component {
               <Tooltip
                 title="接口基本路径，可在 项目设置 里修改"
                 style={{
-                  display: this.props.basepath == '' ? 'block' : 'none'
+                  display: this.props.basepath == "" ? "block" : "none"
                 }}
               >
                 <Input
@@ -700,22 +846,22 @@ class InterfaceEditForm extends Component {
                   value={this.props.basepath}
                   readOnly
                   onChange={() => {}}
-                  style={{ width: '25%' }}
+                  style={{ width: "25%" }}
                 />
               </Tooltip>
-              {getFieldDecorator('path', {
+              {getFieldDecorator("path", {
                 initialValue: this.state.path,
                 rules: [
                   {
                     required: true,
-                    message: '请输入接口路径!'
+                    message: "请输入接口路径!"
                   }
                 ]
               })(
                 <Input
                   onChange={this.handlePath}
                   placeholder="/path"
-                  style={{ width: '60%' }}
+                  style={{ width: "60%" }}
                 />
               )}
             </InputGroup>
@@ -731,7 +877,7 @@ class InterfaceEditForm extends Component {
             {...formItemLayout}
             label="状态"
           >
-            {getFieldDecorator('status', { initialValue: this.state.status })(
+            {getFieldDecorator("status", { initialValue: this.state.status })(
               <Select>
                 <Option value="done">已完成</Option>
                 <Option value="undone">未完成</Option>
@@ -759,37 +905,37 @@ class InterfaceEditForm extends Component {
 
         <div className="panel-sub">
           <FormItem
-            className={'interface-edit-item ' + this.state.hideTabs.req.query}
+            className={"interface-edit-item " + this.state.hideTabs.req.query}
           >
             <Button
               size="small"
               type="primary"
-              onClick={() => this.addParams('req_query')}
+              onClick={() => this.addParams("req_query")}
             >
               添加Query参数
             </Button>
           </FormItem>
 
           <Row
-            className={'interface-edit-item ' + this.state.hideTabs.req.query}
+            className={"interface-edit-item " + this.state.hideTabs.req.query}
           >
             <Col>{QueryList}</Col>
           </Row>
 
           <FormItem
-            className={'interface-edit-item ' + this.state.hideTabs.req.headers}
+            className={"interface-edit-item " + this.state.hideTabs.req.headers}
           >
             <Button
               size="small"
               type="primary"
-              onClick={() => this.addParams('req_headers')}
+              onClick={() => this.addParams("req_headers")}
             >
               添加Header
             </Button>
           </FormItem>
 
           <Row
-            className={'interface-edit-item ' + this.state.hideTabs.req.headers}
+            className={"interface-edit-item " + this.state.hideTabs.req.headers}
           >
             <Col>{headerList}</Col>
           </Row>
@@ -797,10 +943,10 @@ class InterfaceEditForm extends Component {
             <div>
               <FormItem
                 className={
-                  'interface-edit-item ' + this.state.hideTabs.req.body
+                  "interface-edit-item " + this.state.hideTabs.req.body
                 }
               >
-                {getFieldDecorator('req_body_type', {
+                {getFieldDecorator("req_body_type", {
                   initialValue: this.state.req_body_type
                 })(
                   <RadioGroup>
@@ -814,19 +960,19 @@ class InterfaceEditForm extends Component {
 
               <Row
                 className={
-                  'interface-edit-item ' +
-                  (this.props.form.getFieldValue('req_body_type') === 'form'
+                  "interface-edit-item " +
+                  (this.props.form.getFieldValue("req_body_type") === "form"
                     ? this.state.hideTabs.req.body
-                    : 'hide')
+                    : "hide")
                 }
               >
-                <Col style={{ minHeight: '50px' }}>
+                <Col style={{ minHeight: "50px" }}>
                   <Row>
                     <Col span="24" className="interface-edit-item">
                       <Button
                         size="small"
                         type="primary"
-                        onClick={() => this.addParams('req_body_form')}
+                        onClick={() => this.addParams("req_body_form")}
                       >
                         添加form参数
                       </Button>
@@ -840,30 +986,30 @@ class InterfaceEditForm extends Component {
 
           <Row
             className={
-              'interface-edit-item ' +
-              (this.props.form.getFieldValue('req_body_type') === 'json'
+              "interface-edit-item " +
+              (this.props.form.getFieldValue("req_body_type") === "json"
                 ? this.state.hideTabs.req.body
-                : 'hide')
+                : "hide")
             }
           >
-            <Col id="req_body_json" style={{ minHeight: '300px' }} />
+            <Col id="req_body_json" style={{ minHeight: "300px" }} />
           </Row>
 
-          {this.props.form.getFieldValue('req_body_type') === 'file' ? (
+          {this.props.form.getFieldValue("req_body_type") === "file" ? (
             <Row className="interface-edit-item">
-              <Col>
-                {getFieldDecorator('req_body_other', {
+              <Col className="interface-edit-item-other-body">
+                {getFieldDecorator("req_body_other", {
                   initialValue: this.state.req_body_other
-                })(<Input.TextArea placeholder="备注信息" />)}
+                })(<TextArea placeholder="备注信息" autosize={true} />)}
               </Col>
             </Row>
           ) : null}
-          {this.props.form.getFieldValue('req_body_type') === 'raw' ? (
+          {this.props.form.getFieldValue("req_body_type") === "raw" ? (
             <Row>
               <Col>
-                {getFieldDecorator('req_body_other', {
+                {getFieldDecorator("req_body_other", {
                   initialValue: this.state.req_body_other
-                })(<Input.TextArea placeholder="备注信息" />)}
+                })(<TextArea placeholder="备注信息" autosize={{ minRows: 8 }} />)}
               </Col>
             </Row>
           ) : null}
@@ -873,7 +1019,7 @@ class InterfaceEditForm extends Component {
 
         <h2 className="interface-title">Response 设置</h2>
         <div className="container-radiogroup">
-          {getFieldDecorator('res_body_type', {
+          {getFieldDecorator("res_body_type", {
             initialValue: this.state.res_body_type
           })(
             <RadioGroup size="large" className="radioGroup">
@@ -887,9 +1033,9 @@ class InterfaceEditForm extends Component {
             className="interface-edit-item"
             style={{
               display:
-                this.props.form.getFieldValue('res_body_type') === 'json'
-                  ? 'block'
-                  : 'none'
+                this.props.form.getFieldValue("res_body_type") === "json"
+                  ? "block"
+                  : "none"
             }}
           >
             <Col>
@@ -898,12 +1044,12 @@ class InterfaceEditForm extends Component {
                 <TabPane tab="预览" key="preview" />
               </Tabs>
               <div>
-                <h3 style={{ padding: '10px 0' }}>
-                  基于mockjs和json5,可直接写mock模板和注释,具体使用方法请{' '}
+                <h3 style={{ padding: "10px 0" }}>
+                  基于mockjs和json5,可直接写mock模板和注释,具体使用方法请{" "}
                   <span
                     className="href"
                     onClick={() =>
-                      window.open('http://yapi.qunar.com/mock.html', '_blank')}
+                      window.open("http://yapi.qunar.com/mock.html", "_blank")}
                   >
                     查看文档
                   </span>
@@ -911,18 +1057,18 @@ class InterfaceEditForm extends Component {
                 <div
                   id="res_body_json"
                   style={{
-                    minHeight: '300px',
-                    display: this.state.jsonType === 'tpl' ? 'block' : 'none'
+                    minHeight: "300px",
+                    display: this.state.jsonType === "tpl" ? "block" : "none"
                   }}
                 />
                 <div
                   id="mock-preview"
                   style={{
-                    backgroundColor: '#eee',
-                    lineHeight: '20px',
-                    minHeight: '300px',
+                    backgroundColor: "#eee",
+                    lineHeight: "20px",
+                    minHeight: "300px",
                     display:
-                      this.state.jsonType === 'preview' ? 'block' : 'none'
+                      this.state.jsonType === "preview" ? "block" : "none"
                   }}
                 />
               </div>
@@ -933,19 +1079,16 @@ class InterfaceEditForm extends Component {
             className="interface-edit-item"
             style={{
               display:
-                this.props.form.getFieldValue('res_body_type') === 'raw'
-                  ? 'block'
-                  : 'none'
+                this.props.form.getFieldValue("res_body_type") === "raw"
+                  ? "block"
+                  : "none"
             }}
           >
             <Col>
-              {getFieldDecorator('res_body', {
+              {getFieldDecorator("res_body", {
                 initialValue: this.state.res_body
               })(
-                <Input.TextArea
-                  style={{ minHeight: '150px' }}
-                  placeholder="备注信息"
-                />
+                <TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
               )}
             </Col>
           </Row>
@@ -968,7 +1111,7 @@ class InterfaceEditForm extends Component {
         <div className="panel-sub">
           <FormItem
             className={
-              'interface-edit-item ' + this.state.hideTabs.other.remark
+              "interface-edit-item " + this.state.hideTabs.other.remark
             }
           >
             <div>
@@ -976,28 +1119,28 @@ class InterfaceEditForm extends Component {
             </div>
           </FormItem>
           <FormItem
-            className={'interface-edit-item ' + this.state.hideTabs.other.mail}
+            className={"interface-edit-item " + this.state.hideTabs.other.mail}
             {...formItemLayout}
             label="是否开启邮件通知"
           >
-            {getFieldDecorator('switch_notice', {
-              valuePropName: 'checked',
+            {getFieldDecorator("switch_notice", {
+              valuePropName: "checked",
               initialValue: false
             })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
           </FormItem>
           <FormItem
             className={
-              'interface-edit-item ' +
-              (this.props.form.getFieldValue('switch_notice') === false
+              "interface-edit-item " +
+              (this.props.form.getFieldValue("switch_notice") === false
                 ? this.state.hideTabs.other.mail
-                : '')
+                : "")
             }
             {...formItemLayout}
             label="改动日志"
           >
-            {getFieldDecorator('message', { initialValue: '' })(
-              <Input.TextArea
-                style={{ minHeight: '150px' }}
+            {getFieldDecorator("message", { initialValue: "" })(
+              <TextArea
+                style={{ minHeight: "150px" }}
                 placeholder="改动日志会通过邮件发送给关注此项目的用户"
               />
             )}
@@ -1006,7 +1149,7 @@ class InterfaceEditForm extends Component {
 
         <FormItem
           className="interface-edit-item"
-          style={{ textAlign: 'center', marginTop: '16px' }}
+          style={{ textAlign: "center", marginTop: "16px" }}
         >
           {/* <Button type="primary" htmlType="submit">保存1</Button> */}
           <Affix offsetBottom={0}>
