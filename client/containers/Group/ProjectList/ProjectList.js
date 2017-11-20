@@ -1,21 +1,21 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Row, Col, Button, Tooltip, message } from 'antd';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { PureComponent as Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Row, Col, Button, Tooltip, message, Modal } from "antd";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   addProject,
   fetchProjectList,
   delProject,
   changeUpdateModal
-} from '../../../reducer/modules/project';
-import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
-import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
-import { autobind } from 'core-decorators';
-import { setBreadcrumb } from '../../../reducer/modules/user';
+} from "../../../reducer/modules/project";
+import ProjectCard from "../../../components/ProjectCard/ProjectCard.js";
+import ErrMsg from "../../../components/ErrMsg/ErrMsg.js";
+import { autobind } from "core-decorators";
+import { setBreadcrumb } from "../../../reducer/modules/user";
 
-import './ProjectList.scss';
+import "./ProjectList.scss";
 
 @connect(
   state => {
@@ -40,7 +40,7 @@ class ProjectList extends Component {
     super(props);
     this.state = {
       visible: false,
-      protocol: 'http://',
+      protocol: "http://",
       projectData: [],
       exportProjectId: [],
       confirm: false,
@@ -115,26 +115,46 @@ class ProjectList extends Component {
         loading: true
       });
       axios
-        .post('/api/api/package', {
+        .post("/api/api/package", {
           project_id: this.state.exportProjectId
         })
         .catch(() => {
-          message.error('接口打包失败！');
+          message.error("接口打包失败！");
         })
-        .then(() => {
+        .then(response => {
+          Modal.success({
+            title: "接口引入方式",
+            content: (
+              <div>
+                <p>
+                  第一种： 在项目的index.html入口通过script标签引入, 地址：<code>{response.data.data.url}</code>
+                </p>
+                <br />
+                <p>
+                  第二种，点击链接<a
+                    href={response.data.data.url}
+                    download="api.js"
+                    target="_blank"
+                  >
+                    下载
+                  </a>保存到本地.
+                </p>
+              </div>
+            )
+          });
           this.setState({
             confirm: false,
             loading: false
           });
         });
     } else {
-      message.error('请选择至少一个项目！');
+      message.error("请选择至少一个项目！");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.props.setBreadcrumb([
-      { name: '' + (nextProps.currGroup.group_name || '') }
+      { name: "" + (nextProps.currGroup.group_name || "") }
     ]);
 
     // 切换分组
@@ -180,11 +200,11 @@ class ProjectList extends Component {
     projectData = [...followProject, ...noFollow];
     return (
       <div
-        style={{ paddingTop: '24px' }}
+        style={{ paddingTop: "24px" }}
         className="m-panel card-panel card-panel-s project-list"
       >
         <Row className="project-list-header">
-          <Col span={16} style={{ textAlign: 'left' }}>
+          <Col span={16} style={{ textAlign: "left" }}>
             {this.props.currGroup.group_name} 分组共 ({projectData.length}) 个项目
           </Col>
           <Col span={8}>
@@ -196,16 +216,16 @@ class ProjectList extends Component {
                 {this.state.confirm ? (
                   <Button
                     icon="check"
-                    style={{ marginLeft: '20px' }}
+                    style={{ marginLeft: "20px" }}
                     onClick={this.download}
                     loading={this.state.loading}
                   >
-                    {this.state.loading ? '打包中' : '确认'}
+                    {this.state.loading ? "打包中" : "确认"}
                   </Button>
                 ) : (
                   <Button
                     icon="download"
-                    style={{ marginLeft: '20px' }}
+                    style={{ marginLeft: "20px" }}
                     onClick={this.confirm}
                   >
                     项目打包
@@ -217,7 +237,7 @@ class ProjectList extends Component {
                 <Button type="primary" disabled>
                   添加项目
                 </Button>
-                <Button disabled style={{ marginLeft: '20px' }}>
+                <Button disabled style={{ marginLeft: "20px" }}>
                   项目打包
                 </Button>
               </Tooltip>

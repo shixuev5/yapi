@@ -34,28 +34,6 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
 
-
-
-### 在线 Demo
-<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
-
-管理员账号
-```
-用户名： yapi.demo@admin.com
-密码： ymfe.org
-```
-
-### YApi 的一些客户
-* 去哪儿
-* 携程
-* 艺龙 
-* 京东
-* 唯品支付 
-* 链家网
-* 快手
-* 便利蜂
-
-
 ### Authors
 * [suxiaoxin](https://github.com/suxiaoxin)
 * [zwjamnsss](https://github.com/amnsss)
