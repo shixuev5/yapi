@@ -1,2 +1,2 @@
-module.exports = require('./api');
-module.exports.$http = require('./fetch');
+module.exports = require("./api");
+module.exports.fetch = require("./fetch");

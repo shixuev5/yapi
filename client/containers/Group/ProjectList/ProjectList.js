@@ -133,7 +133,7 @@ class ProjectList extends Component {
                 <p>
                   第二种，点击链接<a
                     href={response.data.data.url}
-                    download="api.js"
+                    download="api"
                     target="_blank"
                   >
                     下载
