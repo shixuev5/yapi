@@ -8,6 +8,8 @@ import { changeEditStatus } from "../../../../reducer/modules/interface.js";
 import json5 from "json5";
 import { message, Tabs, Affix } from "antd";
 import Editor from "wangeditor";
+import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js'
+
 const TabPane = Tabs.TabPane;
 let EditFormContext;
 const validJson = json => {
@@ -18,13 +20,6 @@ const validJson = json => {
     return false;
   }
 };
-
-function arrMove(arr, fromIndex, toIndex) {
-  arr = [].concat(arr);
-  let item = arr.splice(fromIndex, 1)[0];
-  arr.splice(toIndex, 0, item);
-  return arr;
-}
 
 import {
   Form,
@@ -39,6 +34,17 @@ import {
   AutoComplete,
   Switch
 } from "antd";
+
+const Json5Example = `
+  {
+    /**
+     * info
+     */
+
+    "id": 1 //appId
+  }
+
+`
 
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
@@ -165,7 +171,7 @@ class InterfaceEditForm extends Component {
   constructor(props) {
     super(props);
     const { curdata } = this.props;
-
+    
     this.state = this.initState(curdata);
   }
 
@@ -188,6 +194,7 @@ class InterfaceEditForm extends Component {
           } catch (e) {
             values.res_body = this.state.res_body;
           }
+          
         }
         if (values.req_body_type === "json") {
           if (
@@ -209,8 +216,8 @@ class InterfaceEditForm extends Component {
 
         values.method = this.state.method;
         values.req_params = values.req_params || [];
-        let isfile = false,
-          isHavaContentType = false;
+        values.req_headers = values.req_headers || [];
+        let isfile = false, isHavaContentType = false;
         if (values.req_body_type === "form") {
           values.req_body_form.forEach(item => {
             if (item.type === "file") {
@@ -327,6 +334,7 @@ class InterfaceEditForm extends Component {
     });
 
     let editor = (this.editor = new Editor("#desc"));
+    editor.customConfig.zIndex = 100;
     const initEditorHTML = this.state.desc;
     editor.customConfig.onchange = function(html) {
       EditFormContext.props.changeEditStatus(initEditorHTML !== html);
@@ -439,12 +447,14 @@ class InterfaceEditForm extends Component {
     });
   };
 
-  handleDragMove = (name, from, to) => {
-    let curValue = this.props.form.getFieldValue(name);
-    let newValue = {};
-    newValue[name] = arrMove(curValue, from, to);
-    this.props.form.setFieldsValue(newValue);
-    this.setState(curValue);
+  handleDragMove = (name) => {
+    return (data) => {
+      let newValue = {
+        [name]: data
+      }
+      this.props.form.setFieldsValue(newValue);
+      this.setState(newValue)
+    }
   };
 
   render() {
@@ -455,27 +465,11 @@ class InterfaceEditForm extends Component {
     };
 
     const queryTpl = (data, index) => {
+  
       return (
         <Row
-          key={index}
-          className="interface-edit-item-content"
-          draggable="true"
-          onDragStart={() => (this.curDragItem = index)}
-          onDragEnter={() => {
-            this.curDrogItem = index;
-          }}
-          onDragLeave={() => {
-            this.curDrogItem = index;
-          }}
-          onDragEnd={() => {
-            this.handleDragMove(
-              "req_query",
-              this.curDragItem,
-              this.curDrogItem
-            );
-            this.curDrogItem = null;
-            this.curDragItem = null;
-          }}
+        key={index}
+        className="interface-edit-item-content"
         >
           <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator("req_query[" + index + "].name", {
@@ -516,25 +510,8 @@ class InterfaceEditForm extends Component {
     const headerTpl = (data, index) => {
       return (
         <Row
-          key={index}
-          className="interface-edit-item-content"
-          draggable="true"
-          onDragStart={() => (this.curDragItem = index)}
-          onDragEnter={() => {
-            this.curDrogItem = index;
-          }}
-          onDragLeave={() => {
-            this.curDrogItem = index;
-          }}
-          onDragEnd={() => {
-            this.handleDragMove(
-              "req_headers",
-              this.curDragItem,
-              this.curDrogItem
-            );
-            this.curDrogItem = null;
-            this.curDragItem = null;
-          }}
+        key={index}
+        className="interface-edit-item-content"
         >
           <Col span="4" className="interface-edit-item-content-col">
             {getFieldDecorator("req_headers[" + index + "].name", {
@@ -579,25 +556,9 @@ class InterfaceEditForm extends Component {
     const requestBodyTpl = (data, index) => {
       return (
         <Row
-          key={index}
+        key={index} 
           className="interface-edit-item-content"
-          draggable="true"
-          onDragStart={() => (this.curDragItem = index)}
-          onDragEnter={() => {
-            this.curDrogItem = index;
-          }}
-          onDragLeave={() => {
-            this.curDrogItem = index;
-          }}
-          onDragEnd={() => {
-            this.handleDragMove(
-              "req_body_form",
-              this.curDragItem,
-              this.curDrogItem
-            );
-            this.curDrogItem = null;
-            this.curDragItem = null;
-          }}
+
         >
           <Col span="4" className="interface-edit-item-content-col">
             {getFieldDecorator("req_body_form[" + index + "].name", {
@@ -646,27 +607,12 @@ class InterfaceEditForm extends Component {
     };
 
     const paramsTpl = (data, index) => {
+
       return (
         <Row
-          key={index}
+        key={index} 
           className="interface-edit-item-content"
-          draggable="true"
-          onDragStart={() => (this.curDragItem = index)}
-          onDragEnter={() => {
-            this.curDrogItem = index;
-          }}
-          onDragLeave={() => {
-            this.curDrogItem = index;
-          }}
-          onDragEnd={() => {
-            this.handleDragMove(
-              "req_params",
-              this.curDragItem,
-              this.curDrogItem
-            );
-            this.curDrogItem = null;
-            this.curDragItem = null;
-          }}
+
         >
           <Col span="6" className="interface-edit-item-content-col">
             {getFieldDecorator("req_params[" + index + "].name", {
@@ -675,7 +621,7 @@ class InterfaceEditForm extends Component {
           </Col>
           <Col span="7" className="interface-edit-item-content-col">
             {getFieldDecorator("req_params[" + index + "].example", {
-              initialValue: data.desc
+            initialValue: data.example
             })(<TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
           <Col span="11" className="interface-edit-item-content-col">
@@ -884,7 +830,9 @@ class InterfaceEditForm extends Component {
           <Row
             className={"interface-edit-item " + this.state.hideTabs.req.query}
           >
-            <Col>{QueryList}</Col>
+              <EasyDragSort data={this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
+                {QueryList}
+              </EasyDragSort>
           </Row>
 
           <FormItem
@@ -902,7 +850,9 @@ class InterfaceEditForm extends Component {
           <Row
             className={"interface-edit-item " + this.state.hideTabs.req.headers}
           >
-            <Col>{headerList}</Col>
+              <EasyDragSort data={this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
+                {headerList}
+              </EasyDragSort>
           </Row>
           {HTTP_METHOD[this.state.method].request_body ? (
             <div>
@@ -943,21 +893,26 @@ class InterfaceEditForm extends Component {
                       </Button>
                     </Col>
                   </Row>
+                <EasyDragSort data={this.props.form.getFieldValue('req_body_form')} onChange={this.handleDragMove('req_body_form')} >
                   {requestBodyList}
+                </EasyDragSort>
+
                 </Col>
               </Row>
             </div>
           ) : null}
 
-          <Row
-            className={
-              "interface-edit-item " +
-              (this.props.form.getFieldValue("req_body_type") === "json"
-                ? this.state.hideTabs.req.body
-                : "hide")
-            }
-          >
-            <Col id="req_body_json" style={{ minHeight: "300px" }} />
+
+          <Row className={'interface-edit-item ' + (this.props.form.getFieldValue('req_body_type') === 'json' ? this.state.hideTabs.req.body : 'hide')}>
+            <Col className="interface-edit-json-info">
+              基于 Json5, 使用注释方式写参数说明 <Tooltip title={<pre>
+                {Json5Example}
+              </pre>}>
+                <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
+              </Tooltip>
+            </Col>
+            <Col id="req_body_json" style={{ minHeight: "300px" }}>
+            </Col>
           </Row>
 
           {this.props.form.getFieldValue("req_body_type") === "file" ? (
@@ -972,9 +927,9 @@ class InterfaceEditForm extends Component {
           {this.props.form.getFieldValue("req_body_type") === "raw" ? (
             <Row>
               <Col>
-                {getFieldDecorator("req_body_other", {
-                  initialValue: this.state.req_body_other
-                })(<TextArea placeholder="备注信息" autosize={{ minRows: 8 }} />)}
+                {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
+                  <TextArea placeholder="备注信息" autosize={{ minRows: 8 }} />
+                )}
               </Col>
             </Row>
           ) : null}
@@ -1009,33 +964,13 @@ class InterfaceEditForm extends Component {
                 <TabPane tab="预览" key="preview" />
               </Tabs>
               <div>
-                <h3 style={{ padding: "10px 0" }}>
-                  基于mockjs和json5,可直接写mock模板和注释,具体使用方法请{" "}
-                  <span
-                    className="href"
-                    onClick={() =>
-                      window.open("http://yapi.qunar.com/mock.html", "_blank")}
-                  >
-                    查看文档
-                  </span>
-                </h3>
-                <div
-                  id="res_body_json"
-                  style={{
-                    minHeight: "300px",
-                    display: this.state.jsonType === "tpl" ? "block" : "none"
-                  }}
-                />
-                <div
-                  id="mock-preview"
-                  style={{
-                    backgroundColor: "#eee",
-                    lineHeight: "20px",
-                    minHeight: "300px",
-                    display:
-                      this.state.jsonType === "preview" ? "block" : "none"
-                  }}
-                />
+                <h3 style={{ padding: '10px 0' }}>基于 mockjs 和 json5,使用注释方式写参数说明 <Tooltip title={<pre>
+                  {Json5Example}
+                </pre>}>
+                  <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
+                </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span></h3>
+                <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
+                <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
             </Col>
           </Row>
@@ -1094,20 +1029,12 @@ class InterfaceEditForm extends Component {
             })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
           </FormItem>
           <FormItem
-            className={
-              "interface-edit-item " +
-              (this.props.form.getFieldValue("switch_notice") === false
-                ? this.state.hideTabs.other.mail
-                : "")
-            }
+            className={'interface-edit-item ' + (this.state.hideTabs.other.mail)}
             {...formItemLayout}
             label="改动日志"
           >
-            {getFieldDecorator("message", { initialValue: "" })(
-              <TextArea
-                style={{ minHeight: "150px" }}
-                placeholder="改动日志会通过邮件发送给关注此项目的用户"
-              />
+            {getFieldDecorator('message', { initialValue: "" })(
+              <TextArea style={{ minHeight: "300px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
             )}
           </FormItem>
         </div>

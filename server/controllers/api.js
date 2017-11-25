@@ -19,11 +19,11 @@ class apiController extends baseController {
     const projList = await this.projectModel.getByPid(project_id);
     await yapi.fs.writeFile(
       yapi.path.resolve(yapi.WEBROOT, "./api/file/request.json"),
-      JSON.stringify(interList, null, 4)
+      JSON.stringify(interList, null, 2)
     );
     await yapi.fs.writeFile(
       yapi.path.resolve(yapi.WEBROOT, "./api/file/env.json"),
-      JSON.stringify(convert2env(projList), null, 4)
+      JSON.stringify(convert2env(projList), null, 2)
     );
     await exec("npm run package:api");
     this.download(ctx);
@@ -37,12 +37,6 @@ class apiController extends baseController {
         url: ctx.request.origin + "/attachment/api.js"
       }
     };
-    // let dataBuffer = yapi.fs.readFileSync(
-    //   yapi.path.join(yapi.WEBROOT, `static/attachment/api.js`)
-    // );
-    // ctx.set("Content-Type", "application/x-javascript");
-    // ctx.set('Content-disposition', `attachment; filename=api.js`);
-    // ctx.body = dataBuffer;
   }
 }
 

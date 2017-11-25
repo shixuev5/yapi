@@ -34,11 +34,8 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
 
-### Authors
-* [suxiaoxin](https://github.com/suxiaoxin)
-* [zwjamnsss](https://github.com/amnsss)
-* [dwb1994](https://github.com/dwb1994)
-* [fungezi](https://github.com/fungezi)
+### YApi 资源
+* [yapi docker](https://github.com/branchzero/yapi-docker) By branchzero
 ### License
 Apache Licene 2.0
 

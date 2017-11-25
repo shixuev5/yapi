@@ -15,20 +15,18 @@ module.exports = {
         test: /\.js$/,
         loader: "babel-loader",
         options: {
-          presets: ["env"]
+          presets: ["env", {
+            "modules": false
+          }]
         }
       }
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      "process.env": "production"
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
       },
-      sourceMap: true,
       parallel: true
     })
   ]

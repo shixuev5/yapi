@@ -1,30 +1,37 @@
-const fetch = require('../fetch');
-const reqJSON = require('../file/request.json');
+const fetch = require("../fetch");
+const reqJSON = require("../file/request.json");
 
-const methods = [ 'PUT', 'POST', 'PATCH' ];
-const mode = [ 'file', 'form' ];
+const methods = ["PUT", "POST", "PATCH"];
+const mode = ["file", "form"];
 
 // 请求函数构造函数
 function fnFactory(req) {
   return function fn(obj = {}, data = {}, config) {
-
-    const reqConfig = Object.assign({}, {
-      method: req.method,
-      url: fetch.environment[req.env] + req.path,
-      headers: arr2obj(req.req_headers)
-    }, config == null ? data : config);
+    const reqConfig = Object.assign(
+      {},
+      {
+        method: req.method,
+        url: fetch.environment[req.env] + req.path,
+        headers: arr2obj(req.req_headers)
+      },
+      config == null ? data : config
+    );
 
     // 处理:id等restful参数
     if (req.req_params.length) {
       const result = [];
       req.req_params.forEach(val => {
         if (val.name in obj) {
-          reqConfig.url = reqConfig.url.replace(new RegExp(`:${val.name}`), obj[val.name]);
+          reqConfig.url = reqConfig.url.replace(
+            new RegExp(`:${val.name}`),
+            obj[val.name]
+          );
           delete obj[val.name];
         } else {
-          result.push({ code: 'missing_field',
+          result.push({
+            code: "missing_field",
             field: val.name,
-            message: 'required'
+            message: "required"
           });
         }
       });
@@ -60,8 +67,8 @@ function fnFactory(req) {
 function exportReqFn(reqList) {
   const obj = {};
   reqList.forEach(req => {
-    obj[req.title.split('|')[1]] = fnFactory(req);
-  })
+    obj[req.title.split("|")[1]] = fnFactory(req);
+  });
   return obj;
 }
 
@@ -69,7 +76,7 @@ function exportReqFn(reqList) {
 function arr2obj(arr) {
   const obj = {};
   arr.forEach(val => {
-    if(val.required === '1') {
+    if (val.required === "1") {
       obj[val.name] = val.value;
     }
   });
@@ -81,12 +88,12 @@ function splitObj(obj, query) {
   const params = {};
   const data = {};
   query.forEach(item => {
-      if (obj[item.name]) {
-        params[item.name] = obj[item.name];
-      } else {
-        data[item.name] = obj[item.name];
-      }
-    });
+    if (obj[item.name]) {
+      params[item.name] = obj[item.name];
+    } else {
+      data[item.name] = obj[item.name];
+    }
+  });
   return {
     params,
     data

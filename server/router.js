@@ -14,14 +14,6 @@ const { createAction } = require("./utils/commons.js");
 
 const router = koaRouter();
 
-const authLevel = {
-  admin: 0,
-  owner: 10,
-  dev: 20,
-  member: 30,
-  guest: 100
-};
-
 let INTERFACE_CONFIG = {
   api: {
     prefix: "/api/",
@@ -368,6 +360,10 @@ let routerConfig = {
       method: "get"
     },
     {
+		action: "getCaseListByVariableParams",
+		path: "case_list_by_var_params",
+		method: "get"
+}, {
       action: "addCase",
       path: "add_case",
       method: "post"
@@ -453,8 +449,11 @@ let routerConfig = {
       action: "testSingleUpload",
       path: "single/upload",
       method: "post"
-    }
-  ]
+	}, {
+		action: "testHttpCode",
+		path: "http/code",
+		method: "post"
+	}]
 };
 
 let pluginsRouterPath = [];
