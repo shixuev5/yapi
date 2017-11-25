@@ -830,9 +830,9 @@ class InterfaceEditForm extends Component {
           <Row
             className={"interface-edit-item " + this.state.hideTabs.req.query}
           >
-              <EasyDragSort data={this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
-                {QueryList}
-              </EasyDragSort>
+            <EasyDragSort data={this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
+              {QueryList}
+            </EasyDragSort>
           </Row>
 
           <FormItem
@@ -850,9 +850,9 @@ class InterfaceEditForm extends Component {
           <Row
             className={"interface-edit-item " + this.state.hideTabs.req.headers}
           >
-              <EasyDragSort data={this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
-                {headerList}
-              </EasyDragSort>
+            <EasyDragSort data={this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
+              {headerList}
+            </EasyDragSort>
           </Row>
           {HTTP_METHOD[this.state.method].request_body ? (
             <div>
@@ -893,9 +893,9 @@ class InterfaceEditForm extends Component {
                       </Button>
                     </Col>
                   </Row>
-                <EasyDragSort data={this.props.form.getFieldValue('req_body_form')} onChange={this.handleDragMove('req_body_form')} >
-                  {requestBodyList}
-                </EasyDragSort>
+                  <EasyDragSort data={this.props.form.getFieldValue('req_body_form')} onChange={this.handleDragMove('req_body_form')} >
+                    {requestBodyList}
+                  </EasyDragSort>
 
                 </Col>
               </Row>
