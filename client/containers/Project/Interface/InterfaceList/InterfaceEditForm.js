@@ -968,7 +968,7 @@ class InterfaceEditForm extends Component {
                   {Json5Example}
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
-                </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span></h3>
+                </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('http://localhost:3000/doc/mock.html', '_blank')}>查看文档</span></h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
