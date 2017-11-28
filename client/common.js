@@ -22,7 +22,7 @@ const roleAction = {
   'viewGroup': 'guest'
 }
 
-exports.isJson = function(json){
+function isJson(json){
   if(!json) return false;
   try{
     json = json5.parse(json);
@@ -31,6 +31,8 @@ exports.isJson = function(json){
     return false;
   }
 }
+
+exports.isJson = isJson;
 
 exports.checkAuth = (action, role)=>{
   return Roles[roleAction[action]] <= Roles[role];
@@ -237,21 +239,26 @@ function handleValueWithFilter(context){
   }  
 }
 
-function handleParamsValue (val, context){
-  const variableRegexp = /\{\s*((?:\$|\@)?.+?)\}/g;
+function handleParamsValue (val, context={}){
+  const variableRegexp = /\{\{\s*((?:\$|\@)?.+?)\}\}/g;
   if (!val || typeof val !== 'string') {
     return val;
   }
   val = val.trim();
-  if (val[0] !== '{' && val.indexOf('{') === -1) {
-    val = '{' + val + '}';
+  if (!/^\{\{[\s\S]+\}\}$/.test(val)) {
+    if(val[0] ==='@' || val[0] === '$'){
+      val = '{{' + val + '}}';
+    }else{
+      return val;
+    }
   }
-  return val.replace(variableRegexp, function(str, match){
+
+  return val.replace(variableRegexp, function(str, match){    
     match = match.trim();
     try{
       return filter(match, handleValueWithFilter(context))
     }catch(err){
-      return match;
+      return str;
     }
   })
 }
@@ -288,3 +295,14 @@ exports.safeAssign = (Obj, nextObj) => {
 
 exports.simpleJsonPathParse = simpleJsonPathParse;
 exports.handleMockWord = handleMockWord;
+
+exports.joinPath = (domain, joinPath) =>{
+  let l = domain.length;
+  if(domain[l - 1] === '/'){
+    domain = domain.substr(0, l - 1)
+  }
+  if(joinPath[0] !== '/'){
+    joinPath = joinPath.substr(1);
+  }
+  return domain + joinPath;
+}

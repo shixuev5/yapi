@@ -9,7 +9,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import { isJson, handleJson, handleParamsValue } from '../../common.js'
+import { isJson, handleJson, handleParamsValue,joinPath } from '../../common.js'
 import _ from "underscore"
 import ModalPostman from '../ModalPostman/index.js'
 
@@ -260,7 +260,8 @@ export default class Run extends Component {
       path = path.replace(`:${item.name}`, this.handleValue(item.value) || `:${item.name}`);
     });
 
-    const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
+    let curdomain = _.find(domains, item => item.name === caseEnv).domain;
+    const urlObj = URL.parse(joinPath(curdomain,  path));
 
     let pathQuery = {};
     urlObj.query && urlObj.query.split('&').forEach(item => {
@@ -787,8 +788,6 @@ export default class Run extends Component {
                           <Checkbox checked={true} disabled >enable</Checkbox> :
                           <Checkbox checked={item.enable} onChange={e => this.changeBody(e.target.checked, index, 'enable')}>enable</Checkbox>
                         }
-
-
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
                           <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e.target.value, index, 'value')} multiple className="value" /> :
