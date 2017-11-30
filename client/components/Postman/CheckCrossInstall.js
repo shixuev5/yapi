@@ -35,7 +35,7 @@ function CheckCrossInstall (props) {
               target="blank"
               href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
             >[Google 商店获取（需翻墙]
-              </a>
+            </a>
           </div>
           <div>
             <a
