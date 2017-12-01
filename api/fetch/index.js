@@ -1,20 +1,21 @@
-import axios from "axios";
-const HTTP_ERROR = require("./httpError");
+const axios = require("axios");
+const HTTP_ERROR = require("./httpError.js");
 
 function validateStatus(status) {
   return status % 100 === 0;
 }
 
 const fetch = axios.create({
-  timeout: 5000,
-  withCredentials: true
+  timeout: 5000
 });
 
 fetch.errorNotify = function(error) {
-  console.error(error);
+  console.table(error);
 };
-fetch.start = function() {};
-fetch.finish = function() {};
+fetch.start = function(config) {
+  return config;
+};
+fetch.success = function() {};
 fetch.error = function() {};
 fetch.environment = require("../file/env.json");
 
@@ -38,11 +39,12 @@ fetch.interceptors.request.use(
 
 fetch.interceptors.response.use(
   response => {
-    fetch.end();
     if (validateStatus(response.data.statusCode)) {
+      fetch.success();
       response.data = response.data.data;
       return Promise.resolve(response);
     }
+    fetch.error();
     fetch.errorNotify({
       code: response.data.statusCode,
       message: response.data.message
@@ -51,14 +53,7 @@ fetch.interceptors.response.use(
   },
   error => {
     fetch.error();
-    if (error.response) {
-      fetch.errorNotify({
-        code: error.response.status,
-        message: HTTP_ERROR[error.response.status][1]
-      });
-      console.table(error.response.data);
-      return Promise.reject(error.response);
-    } else if (error.status) {
+    if (error.status) {
       fetch.errorNotify({
         code: error.status,
         message: HTTP_ERROR[error.status][1]

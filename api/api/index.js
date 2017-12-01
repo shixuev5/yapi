@@ -22,10 +22,7 @@ function fnFactory(req) {
       const result = [];
       req.req_params.forEach(val => {
         if (val.name in obj) {
-          reqConfig.url = reqConfig.url.replace(
-            new RegExp(`:${val.name}`),
-            obj[val.name]
-          );
+          reqConfig.url = reqConfig.url.replace(new RegExp(`:${val.name}`), obj[val.name]);
           delete obj[val.name];
         } else {
           result.push({
