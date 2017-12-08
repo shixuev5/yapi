@@ -26,6 +26,11 @@ function errorHandle(error) {
       code: error.status,
       message: HTTP_ERROR[error.status][1]
     });
+  } else {
+    fetch.errorNotify({
+      code: error.code,
+      message: error.message
+    });
   }
   return Promise.reject(error);
 }

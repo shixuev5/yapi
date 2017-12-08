@@ -732,7 +732,7 @@ class InterfaceEditForm extends Component {
                 <Tooltip
                   title={
                     <div>
-                  <p>1. 支持动态路由,例如:{DEMOPATH}</p>
+                      <p>1. 支持动态路由,例如:{DEMOPATH}</p>
                       <p>
                         2. 支持 ?controller=xxx 的QueryRouter,非router的Query参数请定义到
                         Request设置-&#62;Query
@@ -934,8 +934,9 @@ class InterfaceEditForm extends Component {
             <Row className="interface-edit-item">
               <Col className="interface-edit-item-other-body">
                 {getFieldDecorator("req_body_other", {
-                  initialValue: this.state.req_body_other
-                  <TextArea placeholder="" autosize={true} />
+                  initialValue: this.state.req_body_other})(
+                    <TextArea placeholder="" autosize={true} />
+                )}
               </Col>
             </Row>
           ) : null}
