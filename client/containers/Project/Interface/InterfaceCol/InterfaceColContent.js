@@ -156,6 +156,7 @@ class InterfaceColContent extends Component {
         result = e;
       }
 
+      result.body = result.data;
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
         params: result.params,
@@ -583,7 +584,7 @@ class InterfaceColContent extends Component {
         </Table.Provider>
         <Modal
           title="测试报告"
-          width="660px"
+          width="900px"
           style={{ minHeight: '500px' }}
           visible={this.state.visible}
           onCancel={this.handleCancel}

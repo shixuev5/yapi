@@ -1,3 +1,39 @@
+### v1.2.9
+
+#### Bug Fixed
+
+1. Api 路径兼容 postman {varible}
+2. View Response Height 问题
+3. pathname 允许只有一个 /
+4. 高级 Mock 期望支持 mockjs
+
+### v1.2.8
+
+#### Bug Fixed
+
+1. 修复接口运行 json 格式问题
+2. 修复测试报告显示问题
+3. 增加了接口数量统计
+4. 多参数表达式改用双大括号{{}}
+5. 修复了环境变量设置样式问题
+
+#### Feature
+1. 测试用例增加自定义测试脚本功能
+
+
+### v1.2.7
+
+#### Bug Fixed
+
+1. 修复接口运行功能，当 httpCode 不是200时，导致无法获取 response body 问题
+2. 修复路径参数无法删除优化测试集 table 页面，当文字超出一定长度会换行的问题
+3. 优化测试集断言错误提示
+4. 优化接口编辑 save 按钮样式
+
+#### Feature
+1. 测试集断言增加 log 方法，用于输出调试日志
+2. 可视化动态参数表达式生成器，生成类似表达式 {@email | concat: pass | md5 | substr: 1,10} 
+
 ### v1.2.6
 
 #### Bug Fixed

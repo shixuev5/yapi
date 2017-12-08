@@ -19,6 +19,17 @@ fetch.success = function() {};
 fetch.error = function() {};
 fetch.environment = require("../file/env.json");
 
+function errorHandle(error) {
+  fetch.error();
+  if (error.status) {
+    fetch.errorNotify({
+      code: error.status,
+      message: HTTP_ERROR[error.status][1]
+    });
+  }
+  return Promise.reject(error);
+}
+
 fetch.interceptors.request.use(
   config => fetch.start(config),
   error => {
@@ -52,14 +63,22 @@ fetch.interceptors.response.use(
     return Promise.reject(response);
   },
   error => {
-    fetch.error();
-    if (error.status) {
-      fetch.errorNotify({
-        code: error.status,
-        message: HTTP_ERROR[error.status][1]
-      });
+    const config = error.config;
+    if (!config || !config.retry) return errorHandle(error);
+
+    config.__retryCount = config.__retryCount || 0;
+
+    if (config.__retryCount >= config.retry) {
+      return errorHandle(error);
     }
-    return Promise.reject(error);
+
+    config.__retryCount += 1;
+
+    return new Promise(resolve => {
+      setTimeout(function() {
+        resolve();
+      }, config.retryDelay || 1);
+    }).then(() => fetch(config));
   }
 );
 

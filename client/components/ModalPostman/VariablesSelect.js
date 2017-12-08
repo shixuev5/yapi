@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Tree } from 'antd';
 import { connect } from 'react-redux';
 import { fetchVariableParamsList } from '../../reducer/modules/interfaceCol.js'
+
+
 const TreeNode = Tree.TreeNode;
 const CanSelectPathPrefix = 'CanSelectPath-';
 
@@ -11,7 +13,6 @@ function deleteLastObject(str) {
 }
 
 function deleteLastArr(str) {
-  // return str.split(/[\d]/g).slice(0, -1).join('.');
   return str.replace(/\[.*?\]/g, '');
 }
 
@@ -30,29 +31,47 @@ class VariablesSelect extends Component {
   static propTypes = {
     click: PropTypes.func,
     currColId: PropTypes.number,
-    fetchVariableParamsList: PropTypes.func
-
+    fetchVariableParamsList: PropTypes.func,
+    id: PropTypes.number
   }
   state = {
     records: [],
     expandedKeys: []
   }
 
+  handleRecordsData(id){
+    let newRecords = [];
+    this.id = id;
+    for(let i=0; i< this.records.length; i++){
+      if(this.records[i]._id === id){
+        break;
+      }
+      newRecords.push(this.records[i])
+    }
+    this.setState({
+      records: newRecords
+    })    
+  }
+
   async componentDidMount() {
     const { currColId, fetchVariableParamsList } = this.props
-    let result = await fetchVariableParamsList(currColId);
-    this.setState({
-      records: result.payload.data.data
-      // records:record
+    let result =  await fetchVariableParamsList(currColId);
+    let records = result.payload.data.data;
+    this.records = records.sort((a, b)=>{
+      return a.index - b.index
     })
-   
+    this.handleRecordsData(this.props.id)
+  }
 
+  async componentWillReceiveProps(nextProps){
+    if(this.records && nextProps.id &&this.id !== nextProps.id ){
+      this.handleRecordsData(nextProps.id)
+    }
   }
 
   handleSelect = (key) => {
     if (key && key.indexOf(CanSelectPathPrefix) === 0) {
       key = key.substr(CanSelectPathPrefix.length)
-      console.log(key)
       this.props.click(key);
     } else {
       this.setState({

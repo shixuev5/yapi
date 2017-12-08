@@ -248,6 +248,7 @@ export default class Run extends Component {
           handleOk={this.handleModalOk}
           inputValue={inputValue}
           envType={this.props.type}
+          id={+this.state._id}
         >
         </ModalPostman>
         <CheckCrossInstall hasPlugin={hasPlugin} />
@@ -273,7 +274,7 @@ export default class Run extends Component {
             if (hasPlugin) {
               return '发送请求'
             } else {
-              return '请安装cross-request插件'
+              return '请安装 cross-request 插件'
             }
           })()}>
             <Button
@@ -285,11 +286,14 @@ export default class Run extends Component {
             >{loading ? '取消' : '发送'}</Button>
           </Tooltip>
 
-          <Button
+          <Tooltip placement="bottom" title={()=>{
+            return this.props.type === 'inter' ? '保存到测试集' : '更新该用例'
+            }}><Button
             onClick={this.props.save}
             type="primary"
             style={{ marginLeft: 10 }}
           >{this.props.type === 'inter' ? '保存' : '更新'}</Button>
+          </Tooltip>
         </div>
 
 
@@ -323,7 +327,7 @@ export default class Run extends Component {
                     &nbsp;
                     {item.required == 1 ?
                       <Checkbox className="params-enable" checked={true} disabled >enable</Checkbox> :
-                      <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeParam('req_query', e.target.value, index, 'value')}>enable</Checkbox>
+                      <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeParam('req_query', e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
                     <Input

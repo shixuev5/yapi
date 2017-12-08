@@ -350,6 +350,11 @@ let routerConfig = {
       method: "post"
     },
     {
+		action: 'cloneCaseList',
+		path: 'clone_case_list',
+		method: 'post'
+
+	}, {
       action: "list",
       path: "list",
       method: "get"
