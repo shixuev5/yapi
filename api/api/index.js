@@ -26,9 +26,9 @@ function fnFactory(req) {
           delete obj[val.name];
         } else {
           result.push({
-            code: "missing_field",
+            code: "字段缺失",
             field: val.name,
-            message: "required"
+            message: "必传项"
           });
         }
       });
@@ -64,7 +64,7 @@ function fnFactory(req) {
 function exportReqFn(reqList) {
   const obj = {};
   reqList.forEach(req => {
-    obj[req.title.split("|")[1]] = fnFactory(req);
+    obj[req.title.split("|")[0]] = fnFactory(req);
   });
   return obj;
 }

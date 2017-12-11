@@ -1,15 +1,11 @@
 [
   {
     "_id": 83,
-    "project_id": 19,
     "title": "更新资源信息|updateResourceInfo",
     "path": "/resource/resource/update",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"id\":\"4028c8815ecb74be015ecc8039c60013\",\n  \"alias\":\"myData\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -19,23 +15,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/resource/update",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 86,
-    "project_id": 19,
     "title": "查询空间参考|findSrsById",
     "path": "/data/spatialreferencesystem/findbyid/:id",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "name": "id",
@@ -44,23 +32,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/data/spatialreferencesystem/findbyid/:id",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 89,
-    "project_id": 19,
     "title": "查询空间参考|findSrs",
     "path": "/data/spatialreferencesystem/findpagelist",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"objCondition\":{\n    \"authSrId\":\"\"\n  },\n  \"pageIndex\":1,\n  \"pageSize\":100\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -70,23 +50,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/data/spatialreferencesystem/findpagelist",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 92,
-    "project_id": 19,
     "title": "查询资源信息|findResourceInfo",
     "path": "/resource/resourcegisex/findbyid/:id",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "name": "id",
@@ -95,23 +67,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/resourcegisex/findbyid/:id",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 95,
-    "project_id": 19,
     "title": "新增目录|addCatalog",
     "path": "/resource/catalog/add",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"name\": \"\",\n  \"parentId\": \"\",\n  \"access\": 1,  \n  \"owner\": 1,\n  \"ownerId\": \"\",\n  \"typeId\": \"\",\n  \"description\": \"\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -121,23 +85,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/catalog/add",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 98,
-    "project_id": 19,
     "title": "查询样式|findStyle",
     "path": "/resource/styles/findpagelist",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"objCondition\": {\n    \"orgId\":\"\",\n    \"start\":\"\",\n    \"end\":\"\",\n    \"alias\":\"\",\n    \"type\":\"\",\n    \"classify\":\"\"\n  },\n  \"pageIndex\":1,\n  \"pageSize\":15\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -147,23 +103,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/styles/findpagelist",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 101,
-    "project_id": 19,
     "title": "查询资源类型|findResourceType",
     "path": "/resource/resourcetype/findall",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"parentId\": \"\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -173,23 +121,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/resourcetype/findall",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 107,
-    "project_id": 19,
     "title": "查询目录|findCatalogById",
     "path": "/resource/catalog/findbyid/:id",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "name": "id",
@@ -198,23 +138,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/catalog/findbyid/:id",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 110,
-    "project_id": 19,
     "title": "转换中文字符|findChar",
     "path": "/resource/character/getPingYin",
     "method": "POST",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "县道line",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -224,23 +156,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/character/getPingYin",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 113,
-    "project_id": 19,
     "title": "删除样式|deleteStyle",
     "path": "/resource/styles/delete/:id",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "_id": "5a0bd35c8ae1ef6d6a935c17",
@@ -250,36 +174,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/styles/delete/:id",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 116,
-    "project_id": 19,
     "title": "新增样式|addStyle",
     "path": "/resource/resource/addstyle",
     "method": "POST",
     "req_body_type": "form",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [
-      {
-        "_id": "5a0bd3928ae1ef6d6a935c20",
-        "type": "file",
-        "name": "file",
-        "required": "1"
-      },
-      {
-        "_id": "5a0bd3928ae1ef6d6a935c1f",
-        "type": "text",
-        "name": "data",
-        "required": "1"
-      }
-    ],
     "req_params": [],
     "req_headers": [
       {
@@ -289,23 +192,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/resource/addstyle",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 119,
-    "project_id": 19,
     "title": "更新目录|updateCatalog",
     "path": "/resource/catalog/update",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"id\": \"\",\n  \"name\": \"\",\n  \"description\": \"\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -315,42 +210,26 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/catalog/update",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 122,
-    "project_id": 19,
     "title": "样式分类|styleTypes",
     "path": "/resource/styles/findtypes",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/styles/findtypes",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 125,
-    "project_id": 19,
     "title": "排序目录|sortCatalog",
     "path": "/resource/catalog/specifysort",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"id\": \"\",\n  \"type\": 0\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -360,23 +239,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/catalog/specifysort",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 128,
-    "project_id": 19,
     "title": "删除目录|deleteCatalog",
     "path": "/resource/catalog/delete",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [],
     "req_query": [
@@ -386,23 +257,15 @@
         "_id": "5a0401caf9ad240a1c43382a",
         "required": "1"
       }
-    ],
-    "query_path": {
-      "path": "/resource/catalog/delete",
-      "params": []
-    }
+    ]
   },
   {
     "_id": 131,
-    "project_id": 19,
     "title": "新增地图文档|createMapLayer",
     "path": "/resource/resourcemapex/add",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"infoEntity\": {\n    \"catalogId\": \"402878815ec17f53015ec1e908320004\",\n    \"description\": \"\",\n    \"info\": {},\n    \"name\": \"\",\n    \"typeId\": \"50002\",\n    \"userId\": \"402878815ec17f53015ec1ea7430000b\",\n    \"userName\": \"portal\"\n  },\n  \"mapExEntity\": {\n    \"info\": \"\"\n  }\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -412,23 +275,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/resourcemapex/add",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 134,
-    "project_id": 19,
     "title": "查询目录|findCatalog",
     "path": "/resource/catalog/findall",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"hasChild\": false,\n  \"access\": 1,\n  \"owner\": 1,\n  \"ownerId\": \"\",\n  \"resourceTypeId\": \"1,2\",\n  \"orderby\": \"sort_asc\",\n  \"getmode\": \"all\",\n  \"parentId\": \"\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -438,23 +293,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/catalog/findall",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 140,
-    "project_id": 19,
     "title": "常用目录|findCommonCatalog",
     "path": "/resource/catalog/getcommoncatalog/:userId",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "name": "userId",
@@ -463,23 +310,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/catalog/getcommoncatalog/:userId",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 143,
-    "project_id": 19,
     "title": "下载业务文件|downloadResource",
     "path": "/clouddisk/gisserver/download/:id",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "name": "id",
@@ -488,23 +327,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/clouddisk/gisserver/download/:id",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 146,
-    "project_id": 19,
     "title": "下载样式|downloadStyle",
     "path": "/resource/styles/download/:id",
     "method": "GET",
     "req_body_type": "raw",
-    "res_body_type": "json",
-    "req_body_other": "",
     "env": "server",
-    "req_body_form": [],
     "req_params": [
       {
         "name": "id",
@@ -513,23 +344,15 @@
       }
     ],
     "req_headers": [],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/styles/download/:id",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 149,
-    "project_id": 19,
     "title": "查询地图文档|findMapLayer",
     "path": "/resource/resourcemapex/findall",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"organizationId\":\"402878815ec17f53015ec1e907c40000\",\n  \"userId\":\"402878815ec17f53015ec1ea7430000b\",\n  \"typeId\":\"50002\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -539,23 +362,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/resource/resourcemapex/findall",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 152,
-    "project_id": 19,
     "title": "用户登录|login",
     "path": "/user-center/user/login",
     "method": "POST",
     "req_body_type": "json",
-    "res_body_type": "json",
-    "req_body_other": "{\n  \"name\": \"admin\",\n  \"password\": \"e10adc3949ba59abbe56e057f20f883e\"\n}",
     "env": "server",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [
       {
@@ -565,22 +380,15 @@
         "required": "1"
       }
     ],
-    "req_query": [],
-    "query_path": {
-      "path": "/user-center/user/login",
-      "params": []
-    }
+    "req_query": []
   },
   {
     "_id": 164,
-    "project_id": 19,
     "title": "查询服务|findService",
     "env": "server",
     "path": "/data/service/findall",
     "method": "POST",
-    "res_body_type": "json",
     "req_body_type": "file",
-    "req_body_form": [],
     "req_params": [],
     "req_headers": [],
     "req_query": [
@@ -598,10 +406,6 @@
         "name": "test",
         "required": "0"
       }
-    ],
-    "query_path": {
-      "path": "/data/service/findall",
-      "params": []
-    }
+    ]
   }
 ]
