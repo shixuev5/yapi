@@ -1,703 +1,365 @@
 [
   {
-    "env": "basicUrl",
-    "path": "/resource/catalog/add",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1fa563685d85181c2ba5f6",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "addCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/delete/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a1fa9e4685d85181c2ba601",
-        "desc": "目录id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "deleteCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/findall",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a2100381eb1f8298c2c99f9",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/user-center/user/login",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1faa6c685d85181c2ba603",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "login",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/update",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1fad5f685d85181c2ba608",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "updateCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/findbyid/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a1faf72685d85181c2ba60b",
-        "desc": "目录Id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findCatalogById",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/specifysort",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1fb084685d85181c2ba612",
-        "value": "application/x-www-form-urlencoded",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "sortCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/movecatalog",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1fb18e685d85181c2ba616",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "moveCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/catalog/getcommoncatalog/:userId",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a1fb301685d85181c2ba61a",
-        "desc": "用户id",
-        "name": "userId"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findCommonCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/user-center/favoriteinfo/add",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1fb2cc685d85181c2ba619",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "addCommonCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/user-center/favoriteinfo/deleteoneorall",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a1fb3e1685d85181c2ba61c",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "deleteCommonCatalog",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/resource/addstyle",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20f3e91eb1f8298c2c99da",
-        "value": "multipart/form-data",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "addStyle",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/styles/findpagelist",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20f5701eb1f8298c2c99de",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findStyle",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/styles/delete/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a20f5a91eb1f8298c2c99e0",
-        "desc": "样式id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "deleteStyle",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/styles/findtypes",
-    "method": "GET",
-    "req_params": [],
-    "req_headers": [],
-    "req_query": [],
-    "title": "styleTypes",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/styles/download/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a20f6031eb1f8298c2c99e2",
-        "desc": "样式id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "downloadStyle",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/spatialreferencesystem/findbyid/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a20f6551eb1f8298c2c99e6",
-        "desc": "authSrId",
-        "example": "4490",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findSrsById",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/spatialreferencesystem/findpagelist",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20f6cb1eb1f8298c2c99e7",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findSrs",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/resourcemapex/findall",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20f7b31eb1f8298c2c99ea",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findMapLayer",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/resourcemapex/add",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20f8261eb1f8298c2c99eb",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "createMapLayer",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/character/getPingYin",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20f9191eb1f8298c2c99ec",
-        "value": "text/plain",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findChar",
-    "project_name": "db"
-  },
-  {
-    "env": "YunServicesUrl",
-    "path": "/clouddisk/gisserver/download/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a2109161eb1f8298c2c9a08",
-        "desc": "云盘资源id   ",
-        "example": "fResourceId",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [
-      {
-        "_id": "5a2109161eb1f8298c2c9a0a",
-        "desc": "验证码",
-        "example": "a3UjjlaLC9He",
-        "name": "license",
-        "required": "1"
-      },
-      {
-        "_id": "5a2109161eb1f8298c2c9a09",
-        "desc": "下载的文件名",
-        "example": "",
-        "name": "filename",
-        "required": "1"
-      }
-    ],
-    "title": "downloadResource",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/resource/resourcegisex/findbyid/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a20fb561eb1f8298c2c99f4",
-        "desc": "资源id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findResourceInfo",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/service/servicesinfo/findall",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a20fae71eb1f8298c2c99f2",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findService",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
     "path": "/resource/resource/update",
     "method": "POST",
     "req_params": [],
     "req_headers": [
       {
-        "_id": "5a20fbb31eb1f8298c2c99f5",
+        "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401c9f9ad240a1c43381b",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "更新资源信息",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/data/spatialreferencesystem/findbyid/:id",
+    "method": "GET",
+    "req_params": [
+      {
+        "name": "id",
+        "desc": "",
+        "_id": "5a0401c9f9ad240a1c43381c"
+      }
+    ],
+    "req_headers": [],
+    "req_query": [],
+    "title": "查询空间参考",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/data/spatialreferencesystem/findpagelist",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "_id": "5a0934fbad5e531d6b0af410",
         "value": "application/json",
         "name": "Content-Type",
         "required": "1"
       }
     ],
     "req_query": [],
-    "title": "updateResourceInfo",
-    "project_name": "db"
+    "title": "查询空间参考",
+    "project_name": "数据管理系统"
   },
   {
-    "env": "basicUrl",
+    "path": "/resource/resourcegisex/findbyid/:id",
+    "method": "GET",
+    "req_params": [
+      {
+        "name": "id",
+        "desc": "",
+        "_id": "5a0401caf9ad240a1c43381e"
+      }
+    ],
+    "req_headers": [],
+    "req_query": [],
+    "title": "查询资源信息",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/catalog/add",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "_id": "5a0bab4c40145c63715c1273",
+        "value": "application/json",
+        "name": "Content-Type",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "新增目录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/styles/findpagelist",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "_id": "5a0bd33d8ae1ef6d6a935c15",
+        "value": "application/json",
+        "name": "Content-Type",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "查询样式",
+    "project_name": "数据管理系统"
+  },
+  {
     "path": "/resource/resourcetype/findall",
     "method": "POST",
     "req_params": [],
     "req_headers": [
       {
-        "_id": "5a20fd101eb1f8298c2c99f8",
-        "value": "application/json",
         "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401caf9ad240a1c433820",
         "required": "1"
       }
     ],
     "req_query": [],
-    "title": "findResourceType",
-    "project_name": "db"
+    "title": "查询资源类型",
+    "project_name": "数据管理系统"
   },
   {
-    "env": "basicUrl",
-    "path": "/resource/resourcemapex/update",
-    "method": "POST",
-    "req_params": [],
+    "path": "/resource/catalog/findbyid/:id",
+    "method": "GET",
+    "req_params": [
+      {
+        "name": "id",
+        "desc": "",
+        "_id": "5a0401caf9ad240a1c433823"
+      }
+    ],
     "req_headers": [],
     "req_query": [],
-    "title": "updateMapLayer",
-    "project_name": "db"
+    "title": "查询目录",
+    "project_name": "数据管理系统"
   },
   {
-    "env": "basicUrl",
-    "path": "/user-center/dictionary/finddictionary",
-    "method": "GET",
+    "path": "/resource/character/getPingYin",
+    "method": "POST",
     "req_params": [],
     "req_headers": [
       {
-        "_id": "5a2108921eb1f8298c2c9a04",
-        "value": "application/x-www-form-urlencoded",
         "name": "Content-Type",
+        "value": "text/plain",
+        "_id": "5a0401caf9ad240a1c433824",
         "required": "1"
       }
     ],
-    "req_query": [
+    "req_query": [],
+    "title": "转换中文字符",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/styles/delete/:id",
+    "method": "GET",
+    "req_params": [
       {
-        "_id": "5a2108921eb1f8298c2c9a07",
-        "desc": "父节点id(可选)",
+        "_id": "5a0bd35c8ae1ef6d6a935c17",
+        "desc": "样式id",
         "example": "",
-        "name": "parentId",
-        "required": "0"
-      },
-      {
-        "_id": "5a2108921eb1f8298c2c9a06",
-        "desc": "查询层级",
-        "example": "1",
-        "name": "dictionartyLevel",
-        "required": "1"
-      },
-      {
-        "_id": "5a2108921eb1f8298c2c9a05",
-        "desc": "排序",
-        "example": "\"asc\"",
-        "name": "order",
-        "required": "0"
-      }
-    ],
-    "title": "findDictionary",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/service/servicesinfo/publish",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a210b141eb1f8298c2c9a0b",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "publishService",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/resourceplan/findpagelist",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a210d821eb1f8298c2c9a0d",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findResourcePlan",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/resourceplan/querybyplanid/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a2115171eb1f8298c2c9a16",
-        "desc": "资源方案Id",
         "name": "id"
       }
     ],
     "req_headers": [],
     "req_query": [],
-    "title": "findResourcePlanById",
-    "project_name": "db"
+    "title": "删除样式",
+    "project_name": "数据管理系统"
   },
   {
-    "env": "basicUrl",
-    "path": "/data/resourceplan/extract/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a210e751eb1f8298c2c9a12",
-        "desc": "资源方案Id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "extractResourcePlan",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/resourceplan/delete/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a210f391eb1f8298c2c9a14",
-        "desc": "资源方案Id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "deleteResourcePlan",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/service/gisserver/queryxzq",
+    "path": "/resource/resource/addstyle",
     "method": "POST",
     "req_params": [],
     "req_headers": [
       {
-        "_id": "5a210ff11eb1f8298c2c9a15",
-        "value": "application/json",
-        "name": "Content-Type",
-        "required": "1"
-      }
-    ],
-    "req_query": [],
-    "title": "findXZQ",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/resourceplan/queryrow/:id",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a21158f1eb1f8298c2c9a19",
-        "desc": "资源方案id",
-        "name": "id"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findPlanDetail",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/service/gisserver/getwktsbyshpzip",
-    "method": "POST",
-    "req_params": [],
-    "req_headers": [
-      {
-        "_id": "5a2dfdf548ee231af09e8664",
+        "_id": "5a0bd3928ae1ef6d6a935c1e",
         "value": "multipart/form-data",
         "name": "Content-Type",
         "required": "1"
       }
     ],
+    "req_query": [],
+    "title": "新增样式",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/catalog/update",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401caf9ad240a1c433828",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "更新目录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/styles/findtypes",
+    "method": "GET",
+    "req_params": [],
+    "req_headers": [],
+    "req_query": [],
+    "title": "样式分类",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/catalog/specifysort",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401caf9ad240a1c433829",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "排序目录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/catalog/delete",
+    "method": "GET",
+    "req_params": [],
+    "req_headers": [],
     "req_query": [
       {
-        "_id": "5a2dfdf548ee231af09e8667",
-        "desc": "目标投影，不填返回shp原始数据范围",
-        "name": "crs",
-        "required": "0"
+        "name": "id",
+        "desc": "删除的目录id",
+        "_id": "5a0401caf9ad240a1c43382a",
+        "required": "1"
+      }
+    ],
+    "title": "删除目录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/resourcemapex/add",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401caf9ad240a1c43382b",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "新增地图文档",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/catalog/findall",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401caf9ad240a1c43382c",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "查询目录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/catalog/getcommoncatalog/:userId",
+    "method": "GET",
+    "req_params": [
+      {
+        "name": "userId",
+        "desc": "",
+        "_id": "5a0401caf9ad240a1c43382d"
+      }
+    ],
+    "req_headers": [],
+    "req_query": [],
+    "title": "常用目录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/clouddisk/gisserver/download/:id",
+    "method": "GET",
+    "req_params": [
+      {
+        "name": "id",
+        "desc": "",
+        "_id": "5a0401caf9ad240a1c43382e"
+      }
+    ],
+    "req_headers": [],
+    "req_query": [],
+    "title": "下载业务文件",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/styles/download/:id",
+    "method": "GET",
+    "req_params": [
+      {
+        "name": "id",
+        "desc": "",
+        "_id": "5a0401caf9ad240a1c43382f"
+      }
+    ],
+    "req_headers": [],
+    "req_query": [],
+    "title": "下载样式",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/resource/resourcemapex/findall",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json",
+        "_id": "5a0401caf9ad240a1c433830",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "查询地图文档",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/user-center/user/login",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [
+      {
+        "_id": "5a0bd25e8ae1ef6d6a935c13",
+        "value": "application/json",
+        "name": "Content-Type",
+        "required": "1"
+      }
+    ],
+    "req_query": [],
+    "title": "用户登录",
+    "project_name": "数据管理系统"
+  },
+  {
+    "path": "/data/service/findall",
+    "method": "POST",
+    "req_params": [],
+    "req_headers": [],
+    "req_query": [
+      {
+        "_id": "5a0bf0f0efa01917e21f5d40",
+        "desc": "",
+        "example": "查询参数id",
+        "name": "id",
+        "required": "1"
       },
       {
-        "_id": "5a2dfdf548ee231af09e8666",
-        "desc": "查询个数  默认10 传 -1 查询所有",
-        "example": "",
-        "name": "count",
+        "_id": "5a0bf0f0efa01917e21f5d3f",
+        "desc": "",
+        "example": "测试参数",
+        "name": "test",
         "required": "0"
       }
     ],
-    "title": "findWKT",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/service/speciallayer/query/:type",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a2dfec148ee231af09e8669",
-        "desc": "特殊图层类型 0--行政区 1--地名地址 2--图幅 3--其他",
-        "example": "0",
-        "name": "type"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findSpecialLayer",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/symbol/findallsymbols",
-    "method": "GET",
-    "req_params": [],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findSymbol",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/symbol/findbyname/:name",
-    "method": "GET",
-    "req_params": [
-      {
-        "_id": "5a2dff7d48ee231af09e866b",
-        "desc": "findSymbol接口返回的值",
-        "example": "Public",
-        "name": "name"
-      }
-    ],
-    "req_headers": [],
-    "req_query": [],
-    "title": "findSymbolByName",
-    "project_name": "db"
-  },
-  {
-    "env": "basicUrl",
-    "path": "/data/font/query",
-    "method": "GET",
-    "req_params": [],
-    "req_headers": [],
-    "req_query": [
-      {
-        "_id": "5a2e002148ee231af09e866d",
-        "desc": "不传查询所有",
-        "example": "宋体",
-        "name": "nameLike",
-        "required": "0"
-      }
-    ],
-    "title": "findFont",
-    "project_name": "db"
+    "title": "查询服务",
+    "project_name": "数据管理系统"
   }
 ]
