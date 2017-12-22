@@ -64,7 +64,10 @@ function fnFactory(req) {
 function exportReqFn(reqList) {
   const obj = {};
   reqList.forEach(req => {
-    obj[req.title.split("|")[0]] = fnFactory(req);
+    if(!obj[req.project_name]) {
+      obj[req.project_name] = {};
+    }
+    obj[req.project_name][req.title] = fnFactory(req);
   });
   return obj;
 }

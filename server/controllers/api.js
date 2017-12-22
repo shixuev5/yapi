@@ -17,9 +17,25 @@ class apiController extends baseController {
     const { project_id } = ctx.request.body;
     const interList = await this.interfaceModel.getByPid(project_id);
     const projList = await this.projectModel.getByPid(project_id);
+    const obj = {};
+    projList.forEach(item => obj[item._id] = item.name);
+    const request = [];
+    interList.forEach(item => {
+      const {env, path, method, req_params, req_headers, req_query} = item;
+      request.push({
+        env, 
+        path, 
+        method, 
+        req_params,
+        req_headers, 
+        req_query, 
+        title: item.title.split('|')[0], 
+        project_name: obj[item.project_id]
+      });
+    })
     await yapi.fs.writeFile(
       yapi.path.resolve(yapi.WEBROOT, "./api/file/request.json"),
-      JSON.stringify(interList, null, 2)
+      JSON.stringify(request, null, 2)
     );
     await yapi.fs.writeFile(
       yapi.path.resolve(yapi.WEBROOT, "./api/file/env.json"),

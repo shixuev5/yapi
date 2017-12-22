@@ -55,7 +55,7 @@ class projectModel extends baseModel {
         return this.model.find()
         .where('_id')
         .in(pid_arr)
-        .select('env')
+        .select('_id name env')
         .exec();
     }
 

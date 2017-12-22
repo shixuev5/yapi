@@ -102,11 +102,11 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: "版本： " + packageJson.version,
-          itemLink: "http://localhost:3000/doc/releases.html"
+          itemLink: "http://192.168.1.117:3000/doc/releases.html"
         },
         {
           itemTitle: "使用文档",
-          itemLink: "http://localhost:3000/doc/index.html"
+          itemLink: "http://192.168.1.117:3000/doc/index.html"
         }
       ]
     }

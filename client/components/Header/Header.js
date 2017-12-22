@@ -103,7 +103,7 @@ const tipDoc = (
     </h3>
     <p>
       初次使用 YApi，强烈建议你阅读{" "}
-      <a target="_blank" href="http://localhost:3000/doc/index.html" rel="noopener noreferrer">
+      <a target="_blank" href="http://192.168.1.117:3000/doc/index.html" rel="noopener noreferrer">
         使用文档
       </a>
       ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！{" "}
@@ -171,7 +171,7 @@ const ToolUser = props => {
           <li className="toolbar-li">
             <a
               target="_blank"
-              href="http://localhost:3000/doc/index.html"
+              href="http://192.168.1.117:3000/doc/index.html"
               rel="noopener noreferrer"
             >
               <Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" />

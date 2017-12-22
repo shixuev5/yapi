@@ -149,6 +149,11 @@ class ProjectList extends Component {
         });
     } else {
       message.error("请选择至少一个项目！");
+      setTimeout(function() {
+        this.setState({
+          confirm: false
+        });
+      }.bind(this), 300)
     }
   }
 

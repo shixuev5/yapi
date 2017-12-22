@@ -182,7 +182,7 @@ class interfaceModel extends baseModel {
       .find()
       .where("project_id")
       .in(pid_arr)
-      .select("title path env method req_body_type req_params req_headers req_query")
+      .select("project_id title path env method req_body_type req_params req_headers req_query")
       .exec();
   }
 

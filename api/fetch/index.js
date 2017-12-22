@@ -17,6 +17,9 @@ fetch.start = function(config) {
 };
 fetch.success = function() {};
 fetch.error = function() {};
+fetch.validate = function(data) {
+  return !!data.totalFeatures;
+}
 fetch.environment = require("../file/env.json");
 
 function errorHandle(error) {
@@ -55,9 +58,14 @@ fetch.interceptors.request.use(
 
 fetch.interceptors.response.use(
   response => {
-    if (validateStatus(response.data.statusCode)) {
+    if (
+      response.data.statusCode && validateStatus(response.data.statusCode) ||
+      !response.data.statusCode && fetch.validate(response.data)
+    ) {
       fetch.success();
-      response.data = response.data.data;
+      if (response.data.data) {
+        response.data = response.data.data;
+      }
       return Promise.resolve(response);
     }
     fetch.error();

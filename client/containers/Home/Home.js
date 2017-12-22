@@ -29,7 +29,7 @@ const HomeGuest = () => (
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="http://localhost:3000/doc/index.html"
+                href="http://192.168.1.117:3000/doc/index.html"
                 className="item"
               >
                 使用文档
@@ -374,7 +374,7 @@ class Home extends Component {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="http://localhost:3000/doc/index.html"
+                    href="http://192.168.1.117:3000/doc/index.html"
                   >
                     使用文档
                   </a>
