@@ -94,7 +94,7 @@ class InterfaceMenu extends Component {
 
   componentWillMount() {
     this.handleRequest()
-    
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -162,7 +162,8 @@ class InterfaceMenu extends Component {
 
     let params = {
       catid: this.state.curCatdata._id,
-      name: data.name
+      name: data.name,
+      desc: data.desc
     }
 
     axios.post('/api/interface/up_cat', params).then((res) => {
@@ -404,6 +405,7 @@ class InterfaceMenu extends Component {
 
 
     let currentKes = defaultExpandedKeys();
+    // console.log('currentKey',currentKes)
 
     if (this.state.filter) {
       let arr = [];
@@ -419,11 +421,13 @@ class InterfaceMenu extends Component {
             return true;
 
           })
+          arr.push('cat_' + item._id)
           return interfaceFilter === true
         }
         arr.push('cat_' + item._id)
         return true;
       })
+      // console.log('arr', arr);
       if (arr.length > 0) {
         currentKes.expands = arr;
       }

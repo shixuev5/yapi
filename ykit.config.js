@@ -53,52 +53,51 @@ function initPlugins(configPlugin) {
 initPlugins();
 
 module.exports = {
-  plugins: [
-    {
-      name: "antd",
-      options: {
-        modifyQuery: function(defaultQuery) {
-          // 可查看和编辑 defaultQuery
-          defaultQuery.plugins = [];
-          defaultQuery.plugins.push([
-            "transform-runtime",
-            {
-              polyfill: false,
-              regenerator: true
-            }
-          ]);
-          defaultQuery.plugins.push("transform-decorators-legacy");
-          defaultQuery.plugins.push(["import", { libraryName: "antd" }]);
-          return defaultQuery;
-        },
-        exclude: /node_modules\/(?!yapi-plugin)/
-      }
-    }
-  ],
+  plugins: [{
+    name: 'antd',
+    options: {
+      modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
+        defaultQuery.plugins = [];
+        defaultQuery.plugins.push(["transform-runtime", {
+          "polyfill": false,
+          "regenerator": true
+        }]);
+        defaultQuery.plugins.push('transform-decorators-legacy');
+        defaultQuery.plugins.push(["import", { libraryName: "antd"}])
+        return defaultQuery;
+      },
+      exclude: /node_modules\/(?!yapi-plugin)/
+    }    
+  }],    
   // devtool:  'cheap-source-map',
   config: function(ykit) {
     return {
       exports: ["./index.js"],
       commonsChunk: {
         vendors: {
-          lib: [
-            "react",
-            "redux",
-            "redux-thunk",
-            "react-dom",
-            "redux-promise",
-            "react-router",
-            "react-router-dom",
-            "prop-types",
-            "axios",
-            "moment",
-            "react-dnd-html5-backend",
-            "react-dnd",
-            "reactabular-table",
-            "reactabular-dnd",
-            "table-resolver"
+          lib: ['react', 'redux',
+            'redux-thunk',
+            'react-dom',
+            'redux-promise',
+            'react-router',
+            'react-router-dom',
+            'prop-types',            
+            'react-dnd-html5-backend',
+            'react-dnd',
+            'reactabular-table',
+            'reactabular-dnd',
+            'table-resolver',
+            'recharts'
           ],
-          lib2: ["brace", "mockjs", "json5", "url"]
+          lib2: [
+            'brace',
+            'mockjs',
+            'json5',
+            'url',
+            'wangeditor',
+            'axios',
+            'moment'
+          ]
         }
       },
       modifyWebpackConfig: function(baseConfig) {
@@ -133,6 +132,8 @@ module.exports = {
         baseConfig.output.prd.publicPath = "";
         baseConfig.output.prd.filename = "[name]@[chunkhash][ext]";
 
+        baseConfig.module.noParse = /node_modules\/jsondiffpatch\/public\/build\/.*js/,
+        
         baseConfig.module.loaders.push({
           test: /\.less$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -154,7 +155,7 @@ module.exports = {
         });
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
+          exclude: /node_modules|google-diff.js/,
           loader: "eslint-loader"
         });
 

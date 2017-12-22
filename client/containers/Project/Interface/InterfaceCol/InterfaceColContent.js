@@ -8,7 +8,7 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { isJson,   handleParamsValue } from '../../../../common.js'
+import { json_parse, handleParamsValue } from '../../../../common.js'
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -16,7 +16,7 @@ import * as resolve from 'table-resolver';
 import axios from 'axios'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
-import { handleParams,   crossRequest } from 'client/components/Postman/postmanLib.js'
+import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } from 'client/components/Postman/postmanLib.js'
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
 
 const Option = Select.Option;
@@ -85,6 +85,7 @@ class InterfaceColContent extends Component {
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
+
   }
 
   async componentWillMount() {
@@ -99,9 +100,11 @@ class InterfaceColContent extends Component {
       let result = await this.props.fetchCaseList(currColId);
       if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
+
       }
 
       this.props.setColData({ currColId: +currColId, isShowCol: true, isRander: false })
+
       this.handleColdata(this.props.currCaseList)
     }
 
@@ -117,29 +120,54 @@ class InterfaceColContent extends Component {
     clearInterval(this._crossRequestInterval)
   }
 
+  // 整合header信息
+  handleReqHeader = (req_header) => {
+    let env = this.props.currProject.env;
+    // console.log('env', env);
+    let currDomain = handleCurrDomain(env, this.state.currColEnv);
+    let header = currDomain.header;
+    header.forEach(item => {
+      if (!checkNameIsExistInArray(item.name, req_header)) {
+        item.abled = true;
+        req_header.push(item)
+      }
+    })
+    return req_header
+  }
+
+
   handleColdata = (rows) => {
-    rows = rows.map((item) => {
+    let newRows = JSON.parse(JSON.stringify(rows))
+    newRows = newRows.map((item) => {
       item.id = item._id;
       item._test_status = item.test_status;
+      item.case_env = this.state.currColEnv || item.case_env
+      item.req_headers = this.handleReqHeader(item.req_headers)
       return item;
     })
-    rows = rows.sort((n, o) => {
+    newRows = newRows.sort((n, o) => {
       return n.index - o.index;
     })
+    
     this.setState({
-      rows: rows
+      rows: newRows
     })
   }
 
   executeTests = async () => {
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
-      curitem = Object.assign({}, rows[i],{env: this.props.currProject.env}, { test_status: 'loading' });
+      curitem = Object.assign({}, rows[i], {
+        env: this.props.currProject.env,
+        pre_script: this.props.currProject.pre_script,
+        after_script: this.props.currProject.after_script
+      }, { test_status: 'loading' });
       newRows = [].concat([], rows);
       newRows[i] = curitem;
       this.setState({
         rows: newRows
       })
+      // console.log('newRows', newRows);
       let status = 'error', result;
       try {
         result = await this.handleTest(curitem);
@@ -177,23 +205,29 @@ class InterfaceColContent extends Component {
     let requestParams = {};
     let options = handleParams(interfaceData, this.handleValue, requestParams)
 
-    let result = { code: 400,
-        msg: '数据异常',
-        validRes: [],
-        ...options
-      };
-
+    let result = {
+      code: 400,
+      msg: '数据异常',
+      validRes: []
+    };
 
     try {
-      let data = await crossRequest(options)
-      let res = data.res.body = isJson(data.res.body);
-
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script)
+      let res = data.res.body = json_parse(data.res.body);
       result = {
+        ...options,
         ...result,
         res_header: data.res.header,
         res_body: res
       }
-      
+
+      if (options.data && typeof options.data === 'object') {
+        requestParams = {
+          ...requestParams,
+          ...options.data
+        }
+      }
+
       let validRes = [];
       // 弃用 mock 字段验证功能
       // if (res && typeof res === 'object') {
@@ -223,6 +257,7 @@ class InterfaceColContent extends Component {
 
     } catch (data) {
       result = {
+        ...options,
         ...result,
         res_header: data.header,
         res_body: data.body || data.message,
@@ -251,7 +286,7 @@ class InterfaceColContent extends Component {
         params: requestParams
       })
       if (test.data.errcode !== 0) {
-        test.data.data.logs.forEach(item=>{
+        test.data.data.logs.forEach(item => {
           validRes.push({
             message: item
           })
@@ -268,7 +303,7 @@ class InterfaceColContent extends Component {
     return handleParamsValue(val, this.records);
   }
 
-  
+
 
   arrToObj = (arr, requestParams) => {
     arr = arr || [];
@@ -328,7 +363,7 @@ class InterfaceColContent extends Component {
         index: index
       })
     })
-    axios.post('/api/col/up_col_index', changes).then(()=>{
+    axios.post('/api/col/up_col_index', changes).then(() => {
       this.props.fetchInterfaceColList(this.props.match.params.id)
     })
     if (rows) {
@@ -338,7 +373,7 @@ class InterfaceColContent extends Component {
 
   async componentWillReceiveProps(nextProps) {
     let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
-    
+
     if (newColId && this.currColId && newColId !== this.currColId || nextProps.isRander) {
       this.currColId = newColId;
       await this.props.fetchCaseList(newColId);
@@ -368,7 +403,7 @@ class InterfaceColContent extends Component {
     })
   }
 
-  handleScriptChange = (d)=>{
+  handleScriptChange = (d) => {
     this.setState({
       curScript: d.text
     })
@@ -406,17 +441,16 @@ class InterfaceColContent extends Component {
   }
 
   colEnvChange = (envName) => {
-    let rows = [...this.state.rows];
-    for (var i in rows) {
-      rows[i].case_env = envName;
-    }
+  
     this.setState({
-      rows: [...rows],
       currColEnv: envName
-    });
+    }, () => this.handleColdata(this.props.currCaseList));
+    
+
   }
 
   render() {
+    // console.log('rows',this.state.rows);
     const columns = [{
       property: 'casename',
       header: {
@@ -431,7 +465,7 @@ class InterfaceColContent extends Component {
         formatters: [
           (text, { rowData }) => {
             let record = rowData;
-            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename.length > 23 ?record.casename.substr(0, 20) + '...' : record.casename}</Link>
+            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename.length > 23 ? record.casename.substr(0, 20) + '...' : record.casename}</Link>
           }
         ]
       }
@@ -521,7 +555,7 @@ class InterfaceColContent extends Component {
             return <Button onClick={() => this.openReport(rowData.id)}>测试报告</Button>
           }
           return <div className="interface-col-table-action">
-            <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button>
+            {/* <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button> */}
             {reportFun()}
           </div>
         }]
@@ -607,7 +641,7 @@ class InterfaceColContent extends Component {
             <Switch checked={this.state.enableScript} onChange={e => this.setState({ enableScript: e })} />
           </h3>
           <AceEditor className="case-script" data={this.state.curScript} onChange={this.handleScriptChange} />
-         
+
         </Modal>
       </div>
     )

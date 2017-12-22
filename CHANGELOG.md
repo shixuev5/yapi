@@ -1,11 +1,41 @@
+### v1.3.1
+
+
+#### Bug Fixed
+
+1. 修复接口状态和req_params参数无法更新问题
+2. 修复搜索测试集合不展开问题
+3. 修复测试过程中全局header不存在的问题
+
+
+
+### v1.3.0
+
+#### Feature
+* yapi 默认集成 ldap 登录方式
+* yapi 做一个 sso 登录插件，基于现有的 qsso 改造成大多数公司可用的
+* 环境设置支持全局 header
+* 接口运行页面选择环境增加管理环境的弹层
+* 接口运行支持加工运行前后的 request 和 response ，主要是处理加密的接口或各种 token 参数问题
+* 自动化测试除提供自定义脚本外，还提供可视化表单形式验证一些数据，例如 statusCode、bodyContent 
+* 增加查看接口详细改动
+* 支持接口运行页面 body 全屏编辑
+* 数据导出到 html 支持了分类
+
+#### Bug Fixed
+* 修复了高级 Mock 无法获取到真实客户端 ip 
+
 ### v1.2.9
 
 #### Bug Fixed
 
 1. Api 路径兼容 postman {varible}
 2. View Response Height 问题
+
+#### Feature
+1. 新增克隆测试集功能
+2. 高级 Mock 期望支持 mockjs
 3. pathname 允许只有一个 /
-4. 高级 Mock 期望支持 mockjs
 
 ### v1.2.8
 
