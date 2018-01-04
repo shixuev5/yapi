@@ -1,21 +1,21 @@
 {
   "port": "3000",
-  "adminAccount": "admin@admin.com",
+  "adminAccount": "136393414@qq.com",
   "db": {
     "servername": "127.0.0.1",
-    "DATABASE":  "yapi",
+    "DATABASE": "api",
     "port": 27017,
-    "user": "test1",
-    "pass": "test1"
+    "user": "",
+    "pass": ""
   },
   "mail": {
     "enable": true,
-    "host": "smtp.163.com",
-    "port": 465,
-    "from": "***@163.com",
+    "host": "smtp.mxhichina.com",
+    "port": 25,
+    "from": "yanhao@kingtopware.com",
     "auth": {
-        "user": "***@163.com",
-        "pass": "*****"
+      "user": "yanhao@kingtopware.com",
+      "pass": "xxxxxxxx"
     }
   }
 }

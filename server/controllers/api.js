@@ -44,7 +44,7 @@ class apiController extends baseController {
       yapi.path.resolve(yapi.WEBROOT, './api/file/env.json'),
       JSON.stringify(convert2env(projList), null, 2)
     );
-    exec('npm run package:api', path.resolve(__dirname, '../../'));
+    exec('npm run package:api', { cwd: path.resolve(__dirname, '../../') });
     this.download(ctx);
   }
 
