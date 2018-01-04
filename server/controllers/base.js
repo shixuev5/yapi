@@ -33,7 +33,6 @@ class baseController {
     } else {
       await this.checkLogin(ctx);
     }
-
   }
 
   getUid() {
@@ -61,27 +60,34 @@ class baseController {
     } catch (e) {
       return false;
     }
-
   }
 
   async checkLDAP() {
     // console.log('config', yapi.WEBCONFIG);
     if (!yapi.WEBCONFIG.ldapLogin) {
-      return false
+      return false;
     } else {
-      return yapi.WEBCONFIG.ldapLogin.enable || false
+      return yapi.WEBCONFIG.ldapLogin.enable || false;
     }
-
   }
   /**
-   * 
-   * @param {*} ctx 
+   *
+   * @param {*} ctx
    */
 
   async getLoginStatus(ctx) {
     let body;
-    if (await this.checkLogin(ctx) === true) {
-      let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type', 'study']);
+    if ((await this.checkLogin(ctx)) === true) {
+      let result = yapi.commons.fieldSelect(this.$user, [
+        '_id',
+        'username',
+        'email',
+        'up_time',
+        'add_time',
+        'role',
+        'type',
+        'study'
+      ]);
       body = yapi.commons.resReturn(result);
     } else {
       body = yapi.commons.resReturn(null, 40011, '请登录...');
@@ -111,7 +117,7 @@ class baseController {
       }
       if (type === 'interface') {
         let interfaceInst = yapi.getInst(interfaceModel);
-        let interfaceData = await interfaceInst.get(id)
+        let interfaceData = await interfaceInst.get(id);
         result.interfaceData = interfaceData;
         // 项目创建者相当于 owner
         if (interfaceData.uid === this.getUid()) {
@@ -127,11 +133,11 @@ class baseController {
         if (projectData.uid === this.getUid()) {
           return 'owner';
         }
-        let memberData = _.find(projectData.members, (m) => {
+        let memberData = _.find(projectData.members, m => {
           if (m.uid === this.getUid()) {
             return true;
           }
-        })
+        });
 
         if (memberData && memberData.role) {
           if (memberData.role === 'owner') {
@@ -143,7 +149,7 @@ class baseController {
           }
         }
         type = 'group';
-        id = projectData.group_id
+        id = projectData.group_id;
       }
 
       if (type === 'group') {
@@ -153,34 +159,32 @@ class baseController {
           return 'owner';
         }
 
-
-        let groupMemberData = _.find(groupData.members, (m) => {
+        let groupMemberData = _.find(groupData.members, m => {
           if (m.uid === this.getUid()) {
             return true;
           }
-        })
+        });
         if (groupMemberData && groupMemberData.role) {
           if (groupMemberData.role === 'owner') {
             return 'owner';
           } else if (groupMemberData.role === 'dev') {
-            return 'dev'
+            return 'dev';
           } else {
-            return 'guest'
+            return 'guest';
           }
         }
       }
 
       return 'member';
-    }
-    catch (e) {
-      yapi.commons.log(e.message, 'error')
+    } catch (e) {
+      yapi.commons.log(e.message, 'error');
       return false;
     }
   }
   /**
    * 身份验证
    * @param {*} id type对应的id
-   * @param {*} type enum[interface, project, group] 
+   * @param {*} type enum[interface, project, group]
    * @param {*} action enum[ danger, edit, view ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
    */
   async checkAuth(id, type, action) {
